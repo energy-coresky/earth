@@ -1,0 +1,13 @@
+var ary = [
+  'Hydrogen',
+  'Helium',
+  'Lithium',
+  'Beryllium'
+];
+alert(
+  ary.map(v => v.length)
+);
+~
+var v = 'arrow cool';
+var arr = () => v;
+alert(arr())

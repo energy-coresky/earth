@@ -1,0 +1,214 @@
+#.jet core
+
+#.sandbox //////////////////////////////////////////////////////////////////////////////
+#use(.menu)
+#use(.sand)
+<div style="width:calc(100vw - 170px)">
+<div class="bg-wx bg-x" style="position:sticky; top:0px">
+    <div class="fs16" onclick="sky.d.panel(0)" style="width:60px;line-height:37px">Result</div>
+    <div class="fs16" onclick="sky.d.panel(1)" style="width:50px;line-height:37px">Form</div>
+    <div class="fs16" onclick="sky.d.panel(2)" style="width:70px;line-height:37px">Presets:</div>
+    <div id="sand-pre">{!$list!}</div>
+    <div style="width:260px">
+        <button class="Esc" onclick="sky.d.panel(3)">next - Esc</button> &nbsp;
+        <button class="f2" onclick="sky.d.pre_save()">save - F2</button> &nbsp;
+        <input type="checkbox"@checked($sky->w_sand_esc) title="Escape output">
+        <button onclick="sky.d.pre_run()">run - F9</button>
+    </div>
+</div>
+<div style="padding:10px"></div>
+<div id="pre-form"><textarea rows="33"></textarea></div>
+<div></div>
+</div>
+#.sandbox.sand
+@loop($sands as $uri => $name)
+    <a href="_earth?sandbox={{$uri}}" class="inner-menu"@active($uri == $sky->_2)>{{$name}}</a>
+    @use(`<h3 class="upper-case">DEV SANDBOX {{$sands[$sky->_2]}}</h3>` as header)
+~loop
+#.sand.preset
+@loop($ary as $v)
+<div class="pre-set" n="{{$_.'.'.$fn}}">
+    <pre>{{$v}}</pre>
+</div>
+~loop
+#.preset
+
+#.func //////////////////////////////////////////////////////////////////////////////
+@php $atyp = 'FUNCTIONS' ~php
+#.docs
+#use(.menu)
+#if($sky->_1=='docs')#use(.doc_m)#else#use(.func_m)#end
+<div style="width:calc(100vw - 170px)">
+<div class="bg-wx bg-x" style="position:sticky; top:0px">
+    <div style="font-weight:bold;font-size:16px;width:35%">{{$e_earth->doc[2]}}</div>
+    <div style="width:35%;">@if(100!=$width)<button class="f2" onclick="sky.d.doc_save()">save - F2</button>~if</div>
+    <div style="width:27%; text-align:right"><button onclick="sky.d.doc_edit()">@if(100!=$width)close ~if edit</button></div>
+</div>
+<div style="display:inline-flex; width:100%">
+    <div style="width:45%;{{100==$width and ' display:none'}}">
+        <div style="position:sticky; top:50px">
+        <form style="padding-left:10px;" method="post" id="doc_save">
+            <textarea name="s" style="width:97%; height:calc(100vh - 130px); ">{!$e_earth->doc[0]!}</textarea>
+            <input type="hidden" name="id" value="{{$e_earth->id}}">
+            <input type="hidden" name="tbl" value="{{$sky->_1}}">
+        </form>
+        </div>
+    </div>
+    <div style="width:{{100==$width ? 'calc(100% - 188px)' : '53%'}}">
+        <div style="margin:0 {{100==$width and '1'}}0px" id="doc_div">{!$e_earth->doc[1]!}</div>
+    </div>
+    <div id="r-menu" style="background:#eee;width:170px;{{100!=$width and ' display:none'}}">
+        <div style="position:sticky; top:42px">
+        <div class="other-task">
+            <div class="fs16">Help topic</div>
+        </div>
+        {!$e_earth->doc[3]!}
+        </div>
+    </div>
+</div>
+</div>
+#.docs.func.doc_m.func_m ------------------------------------------------------------------------------
+@loop($e_earth)
+    <a href="_earth?{{$sky->_1}}={{$row->id}}" class="inner-menu"@active($e_earth->func($e_earth, $row))>{!$row->title!}</a>
+    @use(`<h3>CORESKY {{$atyp ?? 'DOCUMENTATION'}}: {{$e_earth->doc[4]}}</h3>` as header)
+~loop
+#.doc_m.func_m
+
+
+#.menu ------------------------------------------------------------------------------ #e0e7ff
+<br>
+<div class="other-task" style="position:sticky; top:50px">Earth</div>
+<a href="_earth?sandbox={{$sky->w_last_sand ?: 'php'}}"@active('sandbox' == ($sky->_1))>Sandboxes</a>@block(`` as sand)
+<a href="_earth?docs={{$sky->w_last_docs ?: 1}}"@active('docs' == ($sky->_1))>Coresky Doc</a>@block(`` as doc_m)
+<a href="_earth?func={{$sky->w_last_func ?: 1}}"@active('func' == ($sky->_1))>Functions</a>@block(`` as func_m)
+<style>
+#doc_div pre, #doc_div code {
+    background-color: #eee;
+}
+#doc_div pre {
+    padding: 10px;
+}
+#sand-pre a:hover, a[active] {
+    background:#818cf8;
+    color:#fff;
+}
+#sand-pre a {
+    display:inline-block;
+    padding: 0 10px;
+    line-height: 27px;
+}
+#pre-form textarea {
+    width:88%;
+    background-color:#ffe;
+    padding: 10px;
+}
+#sand-pre {
+    width:calc(100% - 450px);
+}
+.pre-set:hover {
+    background-color:#e0e7ff;
+}
+.pre-set pre {
+    margin:7px;
+}
+.pre-set {
+    display:inline-block;
+    vertical-align:top;
+    border-right: 1px solid blue;
+    border-bottom: 1px solid blue;
+    cursor:default;
+}
+.act-part {
+    border-bottom: 3px solid #4338ca !important;
+}
+</style><script>
+sky.d.doc_save = function() {
+    ajax('save', $('#doc_save').serialize(), function(r) {
+        $('#doc_div').html(r)
+    });
+};
+sky.d.doc_edit = function() {
+    ajax('edit', {}, function(r) {
+        location.href = r;
+    });
+};
+
+sky.d.pn = [2,0];
+sky.d.panel = function(n) {
+    n = sky.d.pn[0] = 3 == n ? (2 == sky.d.pn[0] ? 0 : 1 + sky.d.pn[0]) : n;
+    $('.bg-wx .fs16').removeClass('act-part');
+    $('.bg-wx .fs16:eq(' + n + ')').addClass('act-part', 1);
+    $('#pre-form').prev().css({display: !n ? '' : 'none'})
+        .next().css({display: 1==n ? '' : 'none'})
+        .next().css({display: 2==n ? '' : 'none'});
+    if (1 == n)
+        $('#pre-form textarea').focus();
+};
+sky.d.preset = function(el) {
+    el = el || $('#sand-pre a:eq(0)')
+    ajax('preset', {n: '{{$sky->_2}}-' + el.html()}, function(r) {
+        $('#sand-pre a').removeAttr('active');
+        el.attr('active', 1);
+        $('#pre-form').next().html(r);
+        $('.pre-set').click(function() {
+            sky.d.panel(1)
+            sky.d.pn[1] = $(this).attr('n');
+            $('#pre-form textarea').val($(this).children().text()).focus();
+        });
+        sky.d.panel(2)
+    });
+};
+sky.d.pre_save = function() {
+    ajax('pre_save', {f:sky.d.pn[1], s:$('#pre-form textarea').val()}, function(r) {
+        //$('#doc_div').html(r)
+    });
+};
+sky.d.pre_run = function() {
+    var chk = $('#v-body input[type=checkbox]').is(':checked') == true ? 1 : 0,
+        s = $('#pre-form textarea').val();
+    if ('jsc' == '{{$sky->_2}}') {
+        function js_run(__code) {
+            var timer = out = '', f = 1;
+            try { eval (__code); } catch(e) { out = e; }
+            function put(out) {
+                if (timer && f) html('res', 'ae', {height:scr_h - 500}, '<input type="button" value="stop timer" onclick="clearInterval(' + timer + ')">');
+                f = 0;
+                html('res', __code + '<hr>');
+                html('res', 'be', '' + out);
+            }
+            if ('' !== out) put(out);
+        }
+        return js_run(s)
+    }
+    ajax('php_run', {s:s, chk:chk}, function(r) {
+        sky.d.panel(0);
+        $('#pre-form').prev().html('<pre>' + r + '</pre>');
+    });
+};
+sky.d.iview = function(n) {
+    $('#v-body h3:eq(' + n + ')').get(0).scrollIntoView({block:'center',behavior:'smooth'});
+};
+
+$(function() {
+    if (sky.a._1 == 'sandbox') {
+        sky.d.preset()
+
+        sky.key[27] = function() { // Escape   .
+            sky.d.panel(3);
+        };
+        sky.key[120] = function() { // F9
+            sky.d.pre_run();
+        };
+    }
+    sky.key[113] = function() { // F2
+        $('.f2:first').click();
+    };
+});
+</script>
+#.menu.topic
+@if(!$ary)<a href="#">No topic found</a>@else
+@loop($ary[1] as $v)
+    <a @href(sky.d.iview({{$_}}))>{{$v}}</a>
+~loop
+~if
+#.topic

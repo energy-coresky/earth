@@ -1,0 +1,14 @@
+$re = "/^[\w\d_\.]{3,30}$/u";
+$str = 'НаРуссском';
+echo preg_match($re, $str);
+
+
+~
+$str = 'The t123st st987ring';
+$s = '/t(\d+)/';
+$f = PREG_OFFSET_CAPTURE | PREG_SET_ORDER;
+preg_match_all($s, $str, $m, $f);
+print_r($m);
+
+~
+echo preg_quote('$^-[]()!@_', '/');

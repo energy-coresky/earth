@@ -1,0 +1,46 @@
+$earth = Plan::view_g('_earth.jet');
+echo Display::jet($earth, 'sandbox');
+// test
+
+~
+ini_set('highlight.default', '#7ee');
+ini_set('highlight.comment', '#68a');
+ini_set('highlight.html', ';background:#777');
+ini_set('highlight.keyword', '#fff');
+ini_set('highlight.string', '#ff5');
+
+$earth = Plan::_g('w3/earth_c.php');
+echo tag(Display::php($earth, '=*'), 'style="background:#222"');
+
+
+~
+$a = ['default'=>'#b11', 'comment'=>'#68a', 'html'=>'', 'keyword'=>'#d11', 'string'=>'#aa3'];
+foreach ($a as $k => $v)
+    ini_set("highlight.$k", $v);
+
+$s = highlight_string('<?php
+class e {
+  private $e = "111";
+}', true);
+
+$s = strip_tags($s, '<span><br>');
+
+ $search=['<br /></span>', '<br />', '<span style="color: ">'];  $replace=["</span>\n", "\n", '']; 
+// $search=['<span style="color: ">'];  $replace=['']; 
+$s = str_replace($search, $replace, $s);
+$s = substr($s, 0, -8);$s = trim($s);
+
+
+$a = explode("\n", $s);
+$a[1] = tag($a[1], 'style="background:yellow"').$a[2];
+unset($a[2]);
+$s = implode("\n", $a);
+
+
+
+echo $s . "\n".strlen($s);
+
+
+~
+http://htmlbook.ru/css/content
+https://learn.javascript.ru/size-and-scroll-window

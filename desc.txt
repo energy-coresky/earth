@@ -1,0 +1,2 @@
+This application contain coresky documentation, sandboxes
+and DEV tools extensions

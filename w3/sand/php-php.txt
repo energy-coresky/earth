@@ -1,0 +1,64 @@
+$out = '';
+$in = ['A', ['x' => 'B', ['y' => 'C'], 'D']];
+array_walk_recursive($in, function (&$v, $k) use (&$out) {
+    if ('x' === $k) $v = ['W', ['X']];     else
+    $out .= $v;
+});
+array_walk_recursive($in, function (&$v, $k) use (&$out) {
+    if ('x' === $k) $v = ['W', ['X']];     else
+    $out .= $v;
+});
+echo $out . "\n\n";
+
+$a = [11];
+$b =& $a;
+list (&$c) = $b;
+$c = 22;
+
+print_r($a);
+
+~
+$ary = get_defined_constants(true);
+$s = array_flip($ary['tokenizer']);
+$php = '<?php
+use SebastianBergmann\Diff\Differ;
+class Gape extends Bolt {}';
+//$php = Plan::_g('w3/earth_c.php');
+$out = [];
+foreach (token_get_all($php) as $v) {
+  $id = 0;
+  if (is_array($v)) {
+  list($id, $str) = $v;
+  $v = $str;
+  echo "$s[$id] --> $v\n";
+  } else echo "$v\n";
+}
+~
+$ary = get_defined_constants(true);
+print_r(array_keys($ary));
+print_r($ary['user']);
+//print_r($ary);
+~
+$a = array([1, 3], [22, 5], [3, 1]);
+
+usort($a, function ($a, $b) {
+    return $a[0] == $b[0] ? 0 : ($a[0] < $b[0] ? -1 : 1);
+});
+print_r($a);
+
+$y = 1;
+$fn1 = fn($x) => $x + $y; # PHP 7.4
+echo 'Arrow func: ' . $fn1(2);
+
+~
+$a = [
+  '<qq>qq<q>',
+  'ку<ку<ы>ы',
+  '<ку<ы>ы',
+  '<ы>ы',
+  '<ы>ы</ы>',
+];
+foreach ($a as $v) {
+  echo "$v => ";
+  echo strip_tags($v)."\n";
+}

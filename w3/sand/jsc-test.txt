@@ -1,0 +1,81 @@
+
+int = 1 / 0
+out = typeof int + ' => ' + int
+~
+// pointers to arrays are not equal
+out = [] === []
+~
+[ {}, [], 1, NaN, Infinity,
+  null, undefined, '1', true,
+  Window, window
+].$$(function(k, v){
+  out += k + '. ' + v + ' => '
+   + typeof v + ' => ' + t$(v)
+   + ' => ' + t$(v, 'undefined') + "\n"
+})
+~
+out = window
+~
+out = true && 'str'
+~
+var str
+out = str || 'newString'
+~
+out = 0 && true
+~
+i = 0;
+timer = setInterval(function(){
+  put('i = ' + i++ + "\n"
+    + 'mouse X = ' + 2 + "\n"
+    + 'mouse Y = ' + 2 + "\n"
+    + 'outerWidth = ' + outerWidth + "\n"
+    + 'innerWidth = ' + innerWidth + "\n"
+    + 'outerHeight = ' + outerHeight + "\n"
+    + 'innerHeight = ' + innerHeight + "\n"
+  )
+}, 100)
+~
+document.onmouseover = function(e){
+  put(
+  'mouse X = ' + e.clientX + "\n" +
+  'mouse Y = ' + e.clientY + "\n"
+  )
+}
+~
+i = 0;
+setInterval(function(){
+  ovw = i++
+}, 100)
+
+# DATA: samples #
+var src = "This is a test string.";
+var re = /\w+/g;
+var arr;
+while ( (arr = re.exec(src)) != null ) {
+    alert( arr.index + "-" + arr);
+}
+~
+var src = "This is! a test string.";
+var re = /\w+/g;
+var arr;
+arr = re.exec(src)
+alert(arr.input) // "This is a test string"
+~
+var w = 100;
+out = w.toString(2);
+~
+out = NaN === NaN;
+~
+var x = $$('div');
+
+function type_ext(variable) {
+  var con, str = t$(variable);
+  if ('object' !== str) return str;
+  con = variable.constructor;
+  return con === co_array
+    ? 'array' : (con === co_hash ? 'hash' : 'node');
+}
+var n = $$(x, function(k, v, i){
+  out += i+'. '+k+' => '+v+"\n"
+})
+out = n + "\n" + out + type_ext(x);

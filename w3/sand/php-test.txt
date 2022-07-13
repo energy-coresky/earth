@@ -1,0 +1,51 @@
+echo $q ?? 333;
+$q = 111;
+echo $q ?: 333;
+
+$iso8601 = date('c');
+$ts = strtotime($iso8601);
+echo "\n\n$iso8601  $ts  " . date(DATE_DT, $ts);
+
+~
+$txt = "<?php\n\n";
+echo 11;
+~
+$sql = 'select ";";
+select 11;';
+$out = sql_split($sql);
+print_r($out);
+~
+echo (int)('0' == false);
+~
+$a = str2ary('');
+print_r($a)."\n";
+$a = explode(' ', '');
+print_r($a)."\n";
+$a = str2ary('qq');
+print_r($a)."\n";
+$a = explode(' ', 'qq');
+print_r($a)."\n";
+~
+$q = (object)['q' => 2, 11];
+$q->x = 3;
+$out = '';
+foreach ($q as $one)
+    $out .= $one;
+echo (int)is_array($q) . (int)is_object($q);
+
+~
+ob_start();
+for ($i = 0; $i < 10; $i++) {
+    echo "<br> Line to show.";
+    ob_flush();
+    flush(); #
+    sleep(1);
+}
+echo "Done.";
+ob_end_flush();
+~
+$s = '01n345n78901234n6';
+echo strrpos($s, 'n', -1);
+~
+echo (int)('qqq' == 0);
+#
