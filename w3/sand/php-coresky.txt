@@ -44,3 +44,5 @@ echo $s . "\n".strlen($s);
 ~
 http://htmlbook.ru/css/content
 https://learn.javascript.ru/size-and-scroll-window
+draggable:
+https://htmlacademy.ru/demos/65?utm_source=habr&utm_medium=special&utm_campaign=js-11022021%09%09%09%09%09%09#19

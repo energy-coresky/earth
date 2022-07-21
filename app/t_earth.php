@@ -3,7 +3,7 @@
 class t_earth extends Model_t
 {
     function __construct() {
-        $this->table = $_POST ? $_POST['tbl'] : $this->_1;
+        $this->table = $_POST['tbl'] ?? $this->_1;
         parent::__construct();
     }
 

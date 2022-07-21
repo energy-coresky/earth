@@ -48,7 +48,7 @@
     <div style="width:45%;{{100==$width and ' display:none'}}">
         <div style="position:sticky; top:50px">
         <form style="padding-left:10px;" method="post" id="doc_save">
-            <textarea name="s" style="width:97%; height:calc(100vh - 130px); ">{!$e_earth->doc[0]!}</textarea>
+            <textarea name="s" style="width:97%; height:calc(100vh - 130px); ">{{$e_earth->doc[0]}}</textarea>
             <input type="hidden" name="id" value="{{$e_earth->id}}">
             <input type="hidden" name="tbl" value="{{$sky->_1}}">
         </form>
@@ -87,6 +87,16 @@
 }
 #doc_div pre {
     padding: 10px;
+}
+#doc_div a {
+    text-decoration: underline;
+    color:blue;
+    border-bottom: 1px solid blue;
+}
+#doc_div a:hover {
+    text-decoration: none;
+    background:blue;
+    color:#fff;
 }
 #sand-pre a:hover, a[active] {
     background:#818cf8;
@@ -193,7 +203,7 @@ $(function() {
     if (sky.a._1 == 'sandbox') {
         sky.d.preset()
 
-        sky.key[27] = function() { // Escape   .
+        sky.key[27] = function() { // Escape
             sky.d.panel(3);
         };
         sky.key[120] = function() { // F9
