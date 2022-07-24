@@ -9,7 +9,7 @@ ini_set('highlight.html', ';background:#777');
 ini_set('highlight.keyword', '#fff');
 ini_set('highlight.string', '#ff5');
 
-$earth = Plan::_g('w3/earth_c.php');
+$earth = Plan::_g('mvc/earth_c.php');
 echo tag(Display::php($earth, '=*'), 'style="background:#222"');
 
 
@@ -46,3 +46,5 @@ http://htmlbook.ru/css/content
 https://learn.javascript.ru/size-and-scroll-window
 draggable:
 https://htmlacademy.ru/demos/65?utm_source=habr&utm_medium=special&utm_campaign=js-11022021%09%09%09%09%09%09#19
+
+https://xiconeditor.com/

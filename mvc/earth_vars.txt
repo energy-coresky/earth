@@ -1,0 +1,6 @@
+last_sand php
+last_docs 9
+last_func 1
+width 100
+last_link _earth?docs=9
+sand_esc 0

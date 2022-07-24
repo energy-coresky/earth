@@ -1,7 +1,9 @@
 
 # Earth
 
-This is DEV-MODE-plugin (Ware) for any SKY-applications. Contain: CORESKY documentation, sandboxes, etc..
+Contain CORESKY documentation, sandboxes and DEV tools extensions.
+
+DEV-MODE-plugin (Ware) for any SKY-applications.
 
 Status: _under development_
 

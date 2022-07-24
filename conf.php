@@ -1,8 +1,8 @@
 <?php
 
 $plans = [
-    'view' => ['path' => __DIR__ . '/w3'],
-    'glob' => ['path' => __DIR__ . '/w3'],
+    'view' => ['path' => __DIR__ . '/mvc'],
+    'mem' => ['path' => __DIR__ . '/mvc'],
     'app' => [
         'type' => 'dev',
         'require' => 'SQLite3 Parsedown',

@@ -24,9 +24,9 @@ class t_earth extends Model_t
         if (!$f)
             return '-';
         list ($n, $f) = explode('.', $f, 2);
-        $ary = explode("\n~\n", unl(Plan::glob_g($f)));
+        $ary = explode("\n~\n", unl(Plan::mem_g($f)));
         $ary[$n] = $s;
-        Plan::glob_p($f, implode("\n~\n", $ary));
+        Plan::mem_p($f, implode("\n~\n", $ary));
         return "OK";
     }
 
