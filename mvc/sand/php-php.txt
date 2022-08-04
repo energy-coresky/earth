@@ -45,6 +45,8 @@ foreach (token_get_all($php) as $v) {
   } else echo "$v\n";
 }
 ~
+$ary = SKY::$dd->_struct('ctry');
+print_r($ary);
 $ary = get_defined_constants(true);
 print_r(array_keys($ary));
 print_r($ary['user']);

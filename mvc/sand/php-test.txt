@@ -48,4 +48,12 @@ $s = '01n345n78901234n6';
 echo strrpos($s, 'n', -1);
 ~
 echo (int)('qqq' == 0);
-#
+
+$url = 'https://api.github.com/repos/energy-coresky/air';
+
+$response = file_get_contents($url, false, stream_context_create(['http' => [
+    'method' => "GET",
+    'header' => "User-Agent: energy-coresky\r\n",
+]]));
+
+print_r(unjson($response, true));

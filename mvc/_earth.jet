@@ -38,7 +38,7 @@
 #.docs
 #use(.menu)
 #if($sky->_1=='docs')#use(.doc_m)#else#use(.func_m)#end
-<div style="width:calc(100vw - 170px)">
+<div>
 <div class="bg-wx bg-x" style="position:sticky; top:0px">
     <div style="font-weight:bold;font-size:16px;width:35%">{{$e_earth->doc[2]}}</div>
     <div style="width:35%;">@if(100!=$width)<button class="f2" onclick="sky.d.doc_save()">save - F2</button>~if</div>
@@ -54,7 +54,7 @@
         </form>
         </div>
     </div>
-    <div style="width:{{100==$width ? 'calc(100% - 188px)' : '53%'}}">
+    <div style="width:{{100==$width ? 'calc(100vw - 358px)' : '53%'}}">
         <div style="margin:0 {{100==$width and '1'}}0px" id="doc_div">{!$e_earth->doc[1]!}</div>
     </div>
     <div id="r-menu" style="background:#eee;width:170px;{{100!=$width and ' display:none'}}">
