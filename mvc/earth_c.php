@@ -9,9 +9,9 @@ class earth_c extends Controller
         }
         Plan::_r('conf.php');
         $this->edd = SQL::open('_e');
-        $vars = Plan::mem_gq('earth_vars.txt');
+        $vars = Plan::cfg_gq('earth_vars.txt');
         SKY::ghost('w', $vars, function ($s) {
-            Plan::mem_p(['earth', 'earth_vars.txt'], $s);
+            Plan::cfg_p(['earth', 'earth_vars.txt'], $s);
         });
     }
 
@@ -31,7 +31,7 @@ class earth_c extends Controller
         SKY::w('last_sand', $this->_2);
         $list = array_map(function ($v) {
             return a(substr(basename($v, '.txt'), 4), ['sky.d.preset($(this))']);
-        }, Plan::mem_b("sand/$this->_2-*"));
+        }, Plan::cfg_b("sand/$this->_2-*"));
         return [
             'list' => implode('', $list),
             'sands' => [
@@ -45,7 +45,7 @@ class earth_c extends Controller
     function j_preset() {
         return [
             'fn' => $fn = 'sand/' . $_POST['n'] . '.txt',
-            'ary' => explode('~', Plan::mem_g($fn)),
+            'ary' => explode('~', Plan::cfg_g($fn)),
         ];
     }
 

@@ -1,6 +1,6 @@
 last_sand php
-last_docs 2
+last_docs 5
 last_func 2
 width 100
-last_link _earth?sandbox=php
+last_link _earth?func=2
 sand_esc 1
