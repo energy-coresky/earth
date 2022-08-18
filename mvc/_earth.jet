@@ -33,46 +33,55 @@
 ~loop
 #.preset
 
-#.func //////////////////////////////////////////////////////////////////////////////
+#.func.merc //////////////////////////////////////////////////////////////////////////////
 @php $atyp = 'FUNCTIONS' ~php
 #.docs
 #use(.menu)
-#if($sky->_1=='docs')#use(.doc_m)#else#use(.func_m)#end
+#if($sky->_1=='docs')#use(.doc_m)#elseif($sky->_1=='merc')#use(.merc_m)#else#use(.func_m)#end
 <div>
 <div class="bg-wx bg-x" style="position:sticky; top:0px">
-    <div style="font-weight:bold;font-size:16px;width:35%">{{$e_earth->doc[2]}}</div>
+    <div style="font-weight:bold;font-size:16px;width:35%">{{$e_earth->doc[2] ?? ''}}</div>
     <div style="width:35%;">@if(100!=$width)<button class="f2" onclick="sky.d.doc_save()">save - F2</button>~if</div>
-    <div style="width:27%; text-align:right"><button onclick="sky.d.doc_edit()">@if(100!=$width)close ~if edit</button></div>
+    <div style="width:27%; text-align:right">
+        <button onclick="sky.d.doc_edit()">@if(100!=$width)close ~if edit</button>
+        @if(100==$width)<button onclick="sky.d.doc_edit(1)">add</button>~if
+    </div>
 </div>
 <div style="display:inline-flex; width:100%">
     <div style="width:45%;{{100==$width and ' display:none'}}">
         <div style="position:sticky; top:50px">
         <form style="padding-left:10px;" method="post" id="doc_save">
-            <textarea name="s" style="width:97%; height:calc(100vh - 130px); ">{{$e_earth->doc[0]}}</textarea>
+            <textarea name="s" style="width:97%; height:calc(100vh - 130px); ">{{$e_earth->doc[0] ?? ''}}</textarea>
             <input type="hidden" name="id" value="{{$e_earth->id}}">
             <input type="hidden" name="tbl" value="{{$sky->_1}}">
+            <input type="hidden" name="title" value="">
         </form>
         </div>
     </div>
     <div style="width:{{100==$width ? 'calc(100vw - 358px)' : '53%'}}">
-        <div style="margin:0 {{100==$width and '1'}}0px" id="doc_div">{!$e_earth->doc[1]!}</div>
+        <div style="margin:0 {{100==$width and '1'}}0px" id="doc_div">
+            @if(100!=$width)
+            <br><input name="xname" value="{{$e_earth->doc[2] ?? ''}}" style="width:100%">
+            ~if
+            {!$e_earth->doc[1] ?? ''!}
+        </div>
     </div>
     <div id="r-menu" style="background:#eee;width:170px;{{100!=$width and ' display:none'}}">
         <div style="position:sticky; top:42px">
         <div class="other-task">
             <div class="fs16">Help topic</div>
         </div>
-        {!$e_earth->doc[3]!}
+        {!$e_earth->doc[3] ?? ''!}
         </div>
     </div>
 </div>
 </div>
-#.docs.func.doc_m.func_m ------------------------------------------------------------------------------
+#.docs.func.merc.doc_m.func_m.merc_m ------------------------------------------------------------------------------
 @loop($e_earth)
     <a href="_earth?{{$sky->_1}}={{$row->id}}" class="inner-menu"@active($e_earth->func($e_earth, $row))>{!$row->title!}</a>
-    @use(`<h3>CORESKY {{$atyp ?? 'DOCUMENTATION'}}: {{$e_earth->doc[4]}}</h3>` as header)
+    @use(`<h3>CORESKY {{$atyp ?? 'DOCUMENTATION'}}: {{$e_earth->doc[4] ?? ''}}</h3>` as header)
 ~loop
-#.doc_m.func_m
+#.doc_m.func_m.merc_m
 
 
 #.menu ------------------------------------------------------------------------------ #e0e7ff
@@ -81,6 +90,9 @@
 <a href="_earth?sandbox={{$sky->w_last_sand ?: 'php'}}"@active('sandbox' == ($sky->_1))>Sandboxes</a>@block(`` as sand)
 <a href="_earth?docs={{$sky->w_last_docs ?: 1}}"@active('docs' == ($sky->_1))>Coresky Doc</a>@block(`` as doc_m)
 <a href="_earth?func={{$sky->w_last_func ?: 1}}"@active('func' == ($sky->_1))>Functions</a>@block(`` as func_m)
+@if(is_dir(DIR_EARTH . '/../mercury'))
+<a href="_earth?merc={{$sky->w_last_merc ?: 1}}"@active('merc' == ($sky->_1))>Mercury DB</a>@block(`` as merc_m)
+~if
 <style>
 #doc_div pre, #doc_div code {
     background-color: #eee;
@@ -133,12 +145,13 @@
 }
 </style><script>
 sky.d.doc_save = function() {
+    $('input[name=title]').val($('input[name=xname]').val());
     ajax('save', $('#doc_save').serialize(), function(r) {
-        $('#doc_div').html(r)
+        r.jump ? (location.href = r.jump) : $('#doc_div').html(r)
     });
 };
-sky.d.doc_edit = function() {
-    ajax('edit', {}, function(r) {
+sky.d.doc_edit = function(a) {
+    ajax('edit', {add:a || 0}, function(r) {
         location.href = r;
     });
 };

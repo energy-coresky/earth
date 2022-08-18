@@ -12,3 +12,5 @@ $plans = [
 SKY::$databases += [
     '_e' => ['driver' => 'sqlite3', 'dsn' => __DIR__ . '/earth.base'],
 ];
+
+defined('DIR_EARTH') or define('DIR_EARTH', __DIR__);

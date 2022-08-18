@@ -3,12 +3,7 @@
 class earth_c extends Controller
 {
     function head_y($action) { // class earth_c extends Controller class earth_c extends Controller
-        function md($text) {
-            $md = new Parsedown();
-            return t_earth::code($md->text($text));
-        }
         Plan::_r('conf.php');
-        $this->edd = SQL::open('_e');
         $vars = Plan::cfg_gq('earth_vars.txt');
         SKY::ghost('w', $vars, function ($s) {
             Plan::cfg_p(['earth', 'earth_vars.txt'], $s);
@@ -64,13 +59,20 @@ class earth_c extends Controller
 
 
     function j_save() {
-        echo $this->t_earth->save();
+        $ary = $this->t_earth->save();
+        $ary[1] ? json(['jump' => "?$_POST[tbl]=" . $ary[1]]) : print($ary[0]);
     }
 
     function j_edit() {
         $this->w_width = 100 == $this->w_width ? 55 : 100;
         SKY::w('width', $this->w_width);
         echo $this->w_last_link;
+        if ($_POST['add'])
+            echo '&add';
+    }
+
+    function a_merc() {
+        return $this->a_func('merc');
     }
 
     function a_docs() {
