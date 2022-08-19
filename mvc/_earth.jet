@@ -90,7 +90,7 @@
 <a href="_earth?sandbox={{$sky->w_last_sand ?: 'php'}}"@active('sandbox' == ($sky->_1))>Sandboxes</a>@block(`` as sand)
 <a href="_earth?docs={{$sky->w_last_docs ?: 1}}"@active('docs' == ($sky->_1))>Coresky Doc</a>@block(`` as doc_m)
 <a href="_earth?func={{$sky->w_last_func ?: 1}}"@active('func' == ($sky->_1))>Functions</a>@block(`` as func_m)
-@if(is_dir(DIR_EARTH . '/../mercury'))
+@if(is_dir(Plan::_obj(0)->path . '/../mercury'))
 <a href="_earth?merc={{$sky->w_last_merc ?: 1}}"@active('merc' == ($sky->_1))>Mercury DB</a>@block(`` as merc_m)
 ~if
 <style>

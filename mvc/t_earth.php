@@ -14,7 +14,7 @@ class t_earth extends Model_t
 
     function head_y() {
         if ($this->is_merc)
-            require DIR_EARTH . '/../mercury/conf.php';
+            require Plan::_obj(0)->path . '/../mercury/conf.php';
         return SQL::open($this->is_merc ? '_w' : '_e');
     }
 
@@ -46,6 +46,12 @@ class t_earth extends Model_t
         if ($_POST['title'])
             $ary += [$this->is_merc ? 'fn' : 'title' => $_POST['title']];
         $id ? $this->update($ary, $id) : ($new_id = $this->insert($ary + ['!dt_c' => '$now']));
+        if ($id && 'docs' == $this->table) {
+            $fn = __DIR__ . '/../../../air.wiki/';
+            $fn .= str_replace(' ', '-', $this->cell(['id=' => $id], 'title')) . '.md';
+            if (is_file($fn))
+                file_put_contents($fn, unl($ary['md']));
+        }
         return [$this->md($_POST['s']), $id ? 0 : $new_id];
     }
 
