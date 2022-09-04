@@ -7,8 +7,13 @@ $ts = strtotime($iso8601);
 echo "\n\n$iso8601  $ts  " . date(DATE_DT, $ts);
 
 ~
-$txt = "<?php\n\n";
-echo 11;
+global $sky;
+echo $sky->s_version . "\n";
+print_r(SKY::version());
+
+$app = '2221';
+$len = strlen(substr($app, 1 + strpos($app, '.')));
+echo "$len\n".date('c', SKY::version()['app'][0]);
 ~
 $sql = 'select ";";
 select 11;';

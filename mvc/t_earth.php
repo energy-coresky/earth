@@ -18,13 +18,10 @@ class t_earth extends Model_t
         return SQL::open($this->is_merc ? '_w' : '_e');
     }
 
-    static function code($s) {
-        $re = '<pre><code class="language\-(jet|php)">(.*?)</code></pre>';
-        return preg_replace_callback("@$re@s", function ($m) {
-            if ('php' == $m[1])
-                return Display::php(unhtml($m[2]), '', true);
-            return Display::jet(unhtml($m[2]), '-', true);
-        }, $s);
+    function md($text) {
+        if ($this->is_merc)
+            return tag(html($text), '', 'pre');
+        return Display::md($text);
     }
 
     function presave($f, $s) {
@@ -53,13 +50,6 @@ class t_earth extends Model_t
                 file_put_contents($fn, unl($ary['md']));
         }
         return [$this->md($_POST['s']), $id ? 0 : $new_id];
-    }
-
-    function md($text) {
-        if ($this->is_merc)
-            return tag(html($text), '', 'pre');
-        $md = new Parsedown();
-        return t_earth::code($md->text($text));
     }
 
     function topic($md) {

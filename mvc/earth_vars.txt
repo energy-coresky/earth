@@ -3,5 +3,5 @@ last_docs 1
 last_func 2
 width 100
 last_link _earth?docs=1
-sand_esc 0
-last_merc 1
+sand_esc 1
+last_merc 4
