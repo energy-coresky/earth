@@ -33,6 +33,16 @@
 ~loop
 #.preset
 
+
+#.port
+#use(.menu)
+#.port
+
+#.phar
+#use(.menu)
+#.phar
+
+
 #.func.merc //////////////////////////////////////////////////////////////////////////////
 @php $atyp = 'FUNCTIONS' ~php
 #.docs
@@ -83,11 +93,12 @@
 ~loop
 #.doc_m.func_m.merc_m
 
-
 #.menu ------------------------------------------------------------------------------ #e0e7ff
 <br>
 <div class="other-task" style="position:sticky; top:50px">Earth</div>
 <a href="_earth?sandbox={{$sky->w_last_sand ?: 'php'}}"@active('sandbox' == ($sky->_1))>Sandboxes</a>@block(`` as sand)
+<a href="_earth?port="@active('port' == ($sky->_1))>Porting Databases</a>@block(`` as port)
+<a href="_earth?phar="@active('phar' == ($sky->_1))>Prepare Phars</a>@block(`` as phar)
 <a href="_earth?docs={{$sky->w_last_docs ?: 1}}"@active('docs' == ($sky->_1))>Coresky Doc</a>@block(`` as doc_m)
 <a href="_earth?func={{$sky->w_last_func ?: 1}}"@active('func' == ($sky->_1))>Functions</a>@block(`` as func_m)
 @if(is_dir(Plan::_obj(0)->path . '/../mercury'))
@@ -235,3 +246,4 @@ $(function() {
 ~loop
 ~if
 #.topic
+

@@ -32,7 +32,7 @@ class earth_c extends Controller
             'sands' => [
                 'php' => 'PHP',
                 'jsc' => 'Javascript',
-                //'sq3' => 'SQLite3',
+                'sql' => 'SQL',
             ],
         ];
     }
@@ -69,6 +69,14 @@ class earth_c extends Controller
         echo $this->w_last_link;
         if ($_POST['add'])
             echo '&add';
+    }
+
+    function a_port() {
+        return [];
+    }
+
+    function a_phar() {
+        return [];
     }
 
     function a_merc() {
