@@ -64,8 +64,7 @@ class earth_c extends Controller
     }
 
     function j_edit() {
-        $this->w_width = 100 == $this->w_width ? 55 : 100;
-        SKY::w('width', $this->w_width);
+        SKY::w('width', 100 == $this->w_width ? 55 : 100);
         echo $this->w_last_link;
         if ($_POST['add'])
             echo '&add';
@@ -91,7 +90,7 @@ class earth_c extends Controller
         SKY::w('last_' . $x, $this->_2);
         return [
             'e_earth' => $this->t_earth->listing(),
-            'width' => $this->w_width ?: 45,
+            'width' => $this->w_width ?: 100,
         ];
     }
 }
