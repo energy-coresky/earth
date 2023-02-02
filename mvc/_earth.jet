@@ -36,6 +36,7 @@
 
 #.port
 #use(.menu)
+<a @href(ajax('qq'))>qq</a>
 #.port
 
 #.phar

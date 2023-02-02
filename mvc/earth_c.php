@@ -70,6 +70,11 @@ class earth_c extends Controller
             echo '&add';
     }
 
+    function j_qq() {
+       echo 11;
+        return 777;
+    }
+
     function a_port() {
         return [];
     }
