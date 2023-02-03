@@ -1,7 +1,7 @@
 last_sand php
-last_docs 1
+last_docs 9
 last_func 29
 width 100
-last_link _earth?docs=1
+last_link _earth?docs=9
 sand_esc 0
 last_merc 1
