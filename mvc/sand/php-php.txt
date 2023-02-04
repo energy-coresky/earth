@@ -25,9 +25,9 @@ if (@socket_connect($sock, '::1', 8000)) {
 echo socket_strerror(socket_last_error($sock));
 socket_close($sock);
 
-
-
-
+~
+list($month, $day, $year) = sscanf('Январь 01 2000', "%s %d %d");
+echo "$year-$month $day";
 ~
 $ary = get_defined_constants(true);
 $s = array_flip($ary['tokenizer']);
