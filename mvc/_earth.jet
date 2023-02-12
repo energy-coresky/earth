@@ -202,17 +202,14 @@ sky.d.pre_run = function() {
     var chk = $('#v-body input[type=checkbox]').is(':checked') == true ? 1 : 0,
         s = $('#pre-form textarea').val();
     if ('jsc' == '{{$sky->_2}}') {
-        function js_run(__code) {
-            var timer = out = '', f = 1;
-            try { eval (__code); } catch(e) { out = e; }
-            function put(out) {
-                if (timer && f) html('res', 'ae', {height:scr_h - 500}, '<input type="button" value="stop timer" onclick="clearInterval(' + timer + ')">');
-                f = 0;
-                html('res', __code + '<hr>');
-                html('res', 'be', '' + out);
-            }
-            if ('' !== out) put(out);
-        }
+        let js_run = function(__code) {
+            var out = '';
+            try { eval(__code); } catch(e) { out = e; }
+            $('#pre-form').prev().html('<pre>1</pre><hr><pre>2</pre>')
+                .children('pre:eq(0)').text(__code).next().next().text(out);
+            //$('#pre-form').prev().html('<pre>' +  + "<hr>" + out + '</pre>');
+        };
+        sky.d.panel(0);
         return js_run(s)
     }
     ajax('php_run', {s:s, chk:chk}, function(r) {
@@ -248,3 +245,9 @@ $(function() {
 ~if
 #.topic
 
+
+
+
+               // if (timer && f)
+                 //   html('res', 'ae', {height:scr_h - 500}, '<input type="button" value="stop timer" onclick="clearInterval(' + timer + ')">');
+                //f = 0;

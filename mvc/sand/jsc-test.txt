@@ -5,14 +5,8 @@ out = typeof int + ' => ' + int
 // pointers to arrays are not equal
 out = [] === []
 ~
-[ {}, [], 1, NaN, Infinity,
-  null, undefined, '1', true,
-  Window, window
-].$$(function(k, v){
-  out += k + '. ' + v + ' => '
-   + typeof v + ' => ' + t$(v)
-   + ' => ' + t$(v, 'undefined') + "\n"
-})
+out = _000.test
+
 ~
 out = window
 ~
@@ -59,23 +53,12 @@ var src = "This is! a test string.";
 var re = /\w+/g;
 var arr;
 arr = re.exec(src)
-alert(arr.input) // "This is a test string"
+out = (arr.input) // "This is a test string"
+
 ~
 var w = 100;
 out = w.toString(2);
 ~
 out = NaN === NaN;
 ~
-var x = $$('div');
-
-function type_ext(variable) {
-  var con, str = t$(variable);
-  if ('object' !== str) return str;
-  con = variable.constructor;
-  return con === co_array
-    ? 'array' : (con === co_hash ? 'hash' : 'node');
-}
-var n = $$(x, function(k, v, i){
-  out += i+'. '+k+' => '+v+"\n"
-})
-out = n + "\n" + out + type_ext(x);
+out = 1 / 0;

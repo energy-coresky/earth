@@ -2,7 +2,7 @@
 
 class earth_c extends Controller
 {
-    function head_y($action) { // class earth_c extends Controller class earth_c extends Controller
+    function head_y($action) {
         Plan::_r('conf.php');
         $vars = Plan::cfg_gq('earth_vars.txt');
         SKY::ghost('w', $vars, function ($s) {

@@ -4,10 +4,10 @@ var ary = [
   'Lithium',
   'Beryllium'
 ];
-alert(
-  ary.map(v => v.length)
-);
+out = ary.map(v => v.length)
+
 ~
 var v = 'arrow cool';
 var arr = () => v;
-alert(arr())
+out = arr()
+

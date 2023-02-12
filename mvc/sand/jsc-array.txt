@@ -1,0 +1,7 @@
+//
+~
+var str
+out = str || 'newString<br>'
+
+// https://github.com/javascript-tutorial/ru.javascript.info/blob/master/1-js/05-data-types/04-array/article.md
+
