@@ -20,7 +20,8 @@ select 11;';
 $out = sql_split($sql);
 print_r($out);
 ~
-echo (int)('0' == false);
+var_dump('0' == false);
+
 ~
 $a = str2ary('');
 print_r($a)."\n";
