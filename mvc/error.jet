@@ -1,7 +1,16 @@
 
+#._
+<h1>Error-no {{$sky->error_no}}, Exit {{$exit ?? 0}}</h1>
+<pre>{!$tracing ?? ''!}</pre>
+<h1>Stdout</h1>
+<pre>{!isset($stdout) ? html($stdout) : sprintf(span_m, 'Var $stdout not set') !}</pre>
+#._ magic marker
+
 
 #._777
 Test error.jet in Ware
+<h1>Stdout</h1>{!$stdout ?? '--'!}<br>
+{{$var}}
 #._777
 
 

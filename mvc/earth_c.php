@@ -17,6 +17,10 @@ class earth_c extends Controller
         return parent::tail_y();
     }
 
+    function error_y($action) {
+        return ['var' => 222];
+    }
+
     function a_ware() {
         '_earth?ware' != $this->w_last_link or $this->w_last_link = '';
         jump($this->w_last_link ?: '_earth?sandbox=php');
