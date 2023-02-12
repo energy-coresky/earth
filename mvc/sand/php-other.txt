@@ -1,6 +1,7 @@
-
-echo 1;
-
+print_r (
+  SKY::$dd->_tables()
+);
+new AbsentClass;
 
 ~
 $str = 'The t123st st987ring';

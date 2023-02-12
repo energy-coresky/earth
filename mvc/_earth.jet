@@ -212,7 +212,7 @@ sky.d.pre_run = function() {
         sky.d.panel(0);
         return js_run(s)
     }
-    ajax('php_run', {s:s, chk:chk}, function(r) {
+    ajax('{{$sky->_2}}_run', {s:s, chk:chk}, function(r) {
         sky.d.panel(0);
         $('#pre-form').prev().html('<pre>' + r + '</pre>');
     });

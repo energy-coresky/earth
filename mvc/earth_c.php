@@ -48,13 +48,26 @@ class earth_c extends Controller
         ];
     }
 
+    function j_sql_run() {
+        SKY::$debug = 1;
+        echo html($s = $_POST['s']) . '<hr>';
+        $res = print_r(sqlf($s), true);
+        echo $_POST['chk'] ? html($res) : $res;
+    }
+
     function j_php_run() {
-        $this->debug = 1;
+        SKY::$debug = 1;
         echo html($_POST['s']) . '<hr>';
         ob_start();
-        eval('' . $_POST['s'] . ';');
-        SKY::w('sand_esc', $_POST['chk']);
-        echo $_POST['chk'] ? html(ob_get_clean()) : ob_get_clean();
+        SKY::w('sand_esc', $chk = $_POST['chk']);
+        try {
+            eval($_POST['s'] . ';');
+            $res = ob_get_clean();
+        } catch (Throwable $e) {
+            $chk = false;
+            $res = '<hr>' . html($e->getMessage()) . '<hr>' . html($e->getTraceAsString());
+        }
+        echo $chk ? html($res) : $res;
     }
 
     function j_pre_save() {
