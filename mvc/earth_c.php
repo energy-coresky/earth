@@ -50,7 +50,7 @@ class earth_c extends Controller
 
     function j_sql_run() {
         SKY::$debug = 1;
-        echo html($s = $_POST['s']) . '<hr>';
+        echo html($s = trim($_POST['s'])) . '<hr>';
         $res = print_r(sqlf($s), true);
         echo $_POST['chk'] ? html($res) : $res;
     }
