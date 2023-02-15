@@ -10,6 +10,14 @@ echo '<h1>Far manager colorer</h1>';
 $earth = Plan::_g('mvc/earth_c.php');
 echo tag(Display::php($earth, str_pad('', 22, '=').'*'), 'style="background:#222"');
 ~
+print_r (
+  SKY::$dd->_tables()
+);
+print_r (
+  SQL::open('venus')->_tables()
+);
+
+~
 $a = ['default'=>'#b11', 'comment'=>'#68a', 'html'=>'', 'keyword'=>'#d11', 'string'=>'#aa3'];
 foreach ($a as $k => $v)
     ini_set("highlight.$k", $v);

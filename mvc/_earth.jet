@@ -23,7 +23,7 @@
 #.sandbox.sand
 @loop($sands as $uri => $name)
     <a href="_earth?sandbox={{$uri}}" class="inner-menu"@active($uri == $sky->_2)>{{$name}}</a>
-    @use(`<h3 class="upper-case">DEV SANDBOX {{$sands[$sky->_2]}}</h3>` as header)
+    @use(.header)
 ~loop
 #.sand.preset
 @loop($ary as $v)
@@ -31,8 +31,12 @@
     <pre>{{$v}}</pre>
 </div>
 ~loop
-#.preset
-
+#.preset.header
+<h3 class="upper-case">
+    @if($sky->_2 == 'sql')@view(databases)~if
+    SANDBOX {{$sands[$sky->_2]}}
+</h3>
+#.header
 
 #.port
 #use(.menu)
@@ -212,7 +216,7 @@ sky.d.pre_run = function() {
         sky.d.panel(0);
         return js_run(s)
     }
-    ajax('{{$sky->_2}}_run', {s:s, chk:chk}, function(r) {
+    ajax('{{$sky->_2}}_run', {s:s, chk:chk, db:'{{'main'==$sky->_4?'':$sky->_4}}'}, function(r) {
         sky.d.panel(0);
         $('#pre-form').prev().html('<pre>' + r + '</pre>');
     });

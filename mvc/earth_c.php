@@ -3,7 +3,6 @@
 class earth_c extends Controller
 {
     function head_y($action) {
-        Plan::_r('conf.php');
         $vars = Plan::cfg_gq('earth_vars.txt');
         SKY::ghost('w', $vars, function ($s) {
             Plan::cfg_p(['earth', 'earth_vars.txt'], $s);
@@ -51,7 +50,8 @@ class earth_c extends Controller
     function j_sql_run() {
         SKY::$debug = 1;
         echo html($s = trim($_POST['s'])) . '<hr>';
-        $res = print_r(sqlf($s), true);
+        $dd = SQL::open($_POST['db']);
+        $res = print_r($dd->sqlf($s), true);
         echo $_POST['chk'] ? html($res) : $res;
     }
 
