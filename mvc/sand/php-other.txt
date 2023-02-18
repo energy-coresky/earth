@@ -1,11 +1,5 @@
-print_r (
-  SKY::$dd->_tables()
-);
-print_r (
-  SQL::open('_e')->_tables()
-);
-
-new AbsentClass;
+SKY::$debug=0;
+//echo sqlf('update $_memory set id=id-20');
 
 
 ~

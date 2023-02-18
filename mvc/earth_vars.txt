@@ -1,4 +1,4 @@
-last_sand sql
+last_sand php
 last_docs 9
 last_func 1
 width 100

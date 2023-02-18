@@ -1,0 +1,20 @@
+{
+  "name": "coresky/earth",
+  "license": "MIT",
+  "description": "Dev-ware for Coresky framework",
+  "keywords": [
+    "coresky",
+    "coresky framework",
+    "sky",
+    "earth"
+  ],
+  "require": {
+    "php": ">7.0"
+  },
+  "authors": [
+    {
+      "name": "Energy",
+      "homepage": "https://coresky.net/"
+    }
+  ]
+}

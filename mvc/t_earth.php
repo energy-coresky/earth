@@ -55,10 +55,8 @@ class t_earth extends Model_t
     }
 
     function topic($md) {
-        MVC::in_tpl(false);
         preg_match_all("!^### (.*)!m", $md, $m);
         $s = view('earth.topic', ['ary' => $m]);
-        MVC::in_tpl();
         return $s;
     }
 

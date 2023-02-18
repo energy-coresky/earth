@@ -10,12 +10,16 @@ echo '<h1>Far manager colorer</h1>';
 $earth = Plan::_g('mvc/earth_c.php');
 echo tag(Display::php($earth, str_pad('', 22, '=').'*'), 'style="background:#222"');
 ~
-print_r (
+echo Plan::var (
   SKY::$dd->_tables()
-);
+) . "\n";
+
 print_r (
   SQL::open('venus')->_tables()
 );
+//new AbsentClass;
+
+
 
 ~
 $a = ['default'=>'#b11', 'comment'=>'#68a', 'html'=>'', 'keyword'=>'#d11', 'string'=>'#aa3'];
