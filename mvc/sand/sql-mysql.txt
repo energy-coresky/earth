@@ -1,27 +1,26 @@
-show databases
+show databases;
+show tables;
+show engines;
+show table status;
+SHOW CHARACTER SET;
+SHOW INNODB STATUS;
+
+~
+help 'Contents';
+help 'Data Types';
+help 'String Functions';
+help 'ASCII';
+help 'CREATE TABLE';
 ~
 select rand();
-~
 select sleep(5);
 ~
-show table status
-
 ~
-SHOW INNODB STATUS
 ~
-show engines
-~
-SHOW CHARACTER SET
-
 ~
 alter table _dev_recycled
-auto_increment = 1000
+auto_increment = 1000;
 ~
-help 'CREATE TABLE'
-~
-help 'Contents'
--- help 'Data Types'
--- help 'DATE'
 ~
 UPDATE ab2 
 SET binc=LOAD_FILE('/tmp/picture') 
@@ -55,3 +54,7 @@ select 1 as `out`
 ~
 explain extended select *
 from $_memory
+~
+select 0 as `out`
+union
+select 1 as `out`

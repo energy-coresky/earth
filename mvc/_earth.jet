@@ -3,7 +3,7 @@
 #.sandbox //////////////////////////////////////////////////////////////////////////////
 #use(.menu)
 #use(.sand)
-<div style="width:calc(100vw - 170px)">
+<div style="width:calc(100%)">
 <div class="bg-wx bg-x" style="position:sticky; top:0px">
     <div class="fs16" onclick="sky.d.panel(0)" style="width:60px;line-height:37px">Result</div>
     <div class="fs16" onclick="sky.d.panel(1)" style="width:50px;line-height:37px">Form</div>

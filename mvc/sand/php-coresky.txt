@@ -28,9 +28,6 @@ print_r (
   SQL::open('venus')->_tables()
 );
 //new AbsentClass;
-
-
-
 ~
 $a = ['default'=>'#b11', 'comment'=>'#68a', 'html'=>'', 'keyword'=>'#d11', 'string'=>'#aa3'];
 foreach ($a as $k => $v)

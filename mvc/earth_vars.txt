@@ -1,7 +1,7 @@
-last_sand sql
+last_sand php
 last_docs 9
 last_func 1
 width 100
-last_link _earth?sandbox=sql
+last_link _earth?sandbox=php
 sand_esc 1
 last_merc 4
