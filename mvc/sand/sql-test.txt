@@ -1,7 +1,0 @@
-%select id, name from $_memory order by id
-
-
-~
-+select 1+11
-~
-%select * from $_users

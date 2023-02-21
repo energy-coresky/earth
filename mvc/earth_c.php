@@ -49,9 +49,48 @@ class earth_c extends Controller
 
     function j_sql_run() {
         SKY::$debug = 1;
-        echo html($s = trim($_POST['s'])) . '<hr>';
+        for ($i = 0; false !== strpos($s = $_POST['s'], $rand = strand()); )
+            if (++$i > 99)
+                throw new Error(1);
+        $s = mb_substr($s, 0, $pos = $_POST['pos']) . $rand . mb_substr($s, $pos);
+        $sql = '';
+        foreach (Rare::split($s) as $one) {
+            $ary = explode($rand, $one);
+            if (2 == count($ary)) {
+                $sql = trim($ary[0] . $ary[1]);
+                break;
+            }
+        }
+        if ('' === $sql) {
+            printf(span_r, 'empty SQL query');
+            return;
+        }
+
+        echo html($sql) . '<hr>';
         $dd = SQL::open($_POST['db']);
-        $res = print_r($dd->sqlf($s), true);
+        $ary = [];
+        $values = function ($v) {
+            $v = array_values($v);
+            foreach ($v as &$val)
+                !$_POST['chk'] or $val = html($val);
+            return $v;
+        };
+        if (is_object($q = $dd->sqlf($sql))) {
+            if ($q->has_result()) {
+                for (; $row = $dd->one($q); $ary[] = $row);
+                if ($ary) {
+                    $i = 0;
+                    echo th([-2 => '##'] + array_keys(current($ary)), 'id="table"');
+                    foreach ($ary as $k => $v)
+                        echo td([-1 => [1 + $i, 'style="width:5%"']] + $values($v), eval(zebra));
+                    echo '</table>';
+                } else {
+                    echo sprintf(span_r, 'empty result') . '<hr>';
+                }
+                return;
+            }
+        }
+        $res = print_r($q, true);
         echo $_POST['chk'] ? html($res) : $res;
     }
 

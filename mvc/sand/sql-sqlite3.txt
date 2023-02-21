@@ -1,0 +1,56 @@
+PRAGMA pragma_list;
+PRAGMA function_list;
+PRAGMA database_list;
+PRAGMA table_list;
+PRAGMA collation_list;
+~
+vacuum
+~
+EXPLAIN PRAGMA module_list;
+PRAGMA foreign_key_list;
+EXPLAIN PRAGMA index_list;
+
+~
++PRAGMA schema.table_info(table-name);
+-- PRAGMA schema.table_xinfo(table-name);
+~
++select json_object('a',2,'c',4)
+
+~
++select json_type('{"a":[2,3.5,true,false,null,"x"]}','$.a[5]') -- 'text'
+~
+CREATE TABLE json_tree(
+    key ANY,             -- key for current element relative to its parent
+    value ANY,           -- value for the current element
+    type TEXT,           -- 'object','array','string','integer', etc.
+    atom ANY,            -- value for primitive types, null for array & object
+    id INTEGER,          -- integer ID for this element
+    parent INTEGER,      -- integer ID for the parent of this element
+    fullkey TEXT,        -- full path describing the current element
+    path TEXT,           -- path to the container of the current row
+    json JSON HIDDEN,    -- 1st input parameter: the raw JSON
+    root TEXT HIDDEN     -- 2nd input parameter: the PATH at which to start
+);
+~
+SELECT name FROM user WHERE phone LIKE '704-%'
+UNION
+SELECT user.name
+  FROM user, json_each(user.phone)
+ WHERE json_valid(user.phone)
+   AND json_each.value LIKE '704-%';
+~
++SELECT '[11,22,33,44]' ->> 3
+~
+explain SELECT id,name,code,imemo,cmemo FROM memory where id<0
+-- where id=12
+ -- update memory set name='ghost-i' where id=11
+-- id,name,code,imemo,cmemo
+
+-- 
+-- explain delete FROM memory where id>12
+~
+EXPLAIN SELECT * FROM sqlite_master
+~
+EXPLAIN QUERY PLAN SELECT * FROM sqlite_master
+~
+CREATE TABLE test ("id" INTEGER, "name" varchar(100))

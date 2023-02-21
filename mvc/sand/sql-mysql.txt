@@ -1,0 +1,57 @@
+show databases
+~
+select rand();
+~
+select sleep(5);
+~
+show table status
+
+~
+SHOW INNODB STATUS
+~
+show engines
+~
+SHOW CHARACTER SET
+
+~
+alter table _dev_recycled
+auto_increment = 1000
+~
+help 'CREATE TABLE'
+~
+help 'Contents'
+-- help 'Data Types'
+-- help 'DATE'
+~
+UPDATE ab2 
+SET binc=LOAD_FILE('/tmp/picture') 
+WHERE id=4477;
+~
+SELECT      -- Convert
+  CONCAT('ALTER TABLE `',
+  t.`TABLE_SCHEMA` ,
+  '`.`', t.`TABLE_NAME`,
+  '` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;')
+  AS sqlcode
+FROM `information_schema`.`TABLES` t
+WHERE 1 AND t.`TABLE_SCHEMA` =  'my_db_name'
+ORDER BY 1 
+LIMIT 0, 90;
+~
+select * from
+information_schema.USER_PRIVILEGES
+~
+select now(),
+concat(day(now()),' ',
+monthname(now()),' ',
+curtime())
+~
+select * from _dev_help 
+procedure analyse()
+~
+select 0 as `out`
+union
+select 1 as `out`
+~
+explain extended select *
+from $_memory

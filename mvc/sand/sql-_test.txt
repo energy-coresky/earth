@@ -1,0 +1,9 @@
+select id, name, imemo, dt from $_memory order by id
+
+~
++select 1+11;
+
+~
+select * from $_users
+~
+update $_memory set dt=$now where id=1

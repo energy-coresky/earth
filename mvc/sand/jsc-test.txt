@@ -1,4 +1,3 @@
-
 int = 1 / 0
 out = typeof int + ' => ' + int
 ~
@@ -62,3 +61,10 @@ out = w.toString(2);
 out = NaN === NaN;
 ~
 out = 1 / 0;
+~
+http://htmlbook.ru/css/content
+https://learn.javascript.ru/size-and-scroll-window
+draggable:
+https://htmlacademy.ru/demos/65?utm_source=habr&utm_medium=special&utm_campaign=js-11022021%09%09%09%09%09%09#19
+
+https://xiconeditor.com/
