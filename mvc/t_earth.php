@@ -27,11 +27,11 @@ class t_earth extends Model_t
     }
 
     function presave($f, $s) {
-        if (!$f)
+        if (!$f || '+0' == $f)
             return '-';
         list ($n, $f) = explode('.', $f, 2);
         $ary = explode("\n~\n", unl(Plan::cfg_g($f)));
-        $ary[$n] = $s;
+        '+' == $n[0] ? array_unshift($ary, $s) : ($ary[$n] = $s);
         Plan::cfg_p($f, implode("\n~\n", $ary));
         return "OK";
     }

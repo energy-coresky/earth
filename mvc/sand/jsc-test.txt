@@ -63,8 +63,9 @@ out = NaN === NaN;
 out = 1 / 0;
 ~
 http://htmlbook.ru/css/content
-https://learn.javascript.ru/size-and-scroll-window
 draggable:
 https://htmlacademy.ru/demos/65?utm_source=habr&utm_medium=special&utm_campaign=js-11022021%09%09%09%09%09%09#19
-
 https://xiconeditor.com/
+https://learn.javascript.ru/selection-range
+https://learn.javascript.ru/size-and-scroll-window
+https://github.com/javascript-tutorial/ru.javascript.info/blob/master/1-js/05-data-types/04-array/article.md

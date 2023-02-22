@@ -1,3 +1,6 @@
+print_r($list = Plan::_b('mvc/sand/*'));
+echo Plan::var($list);
+~
 $earth = Plan::view_g('_earth.jet');
 echo Display::jet($earth, 'sandbox');
 ~

@@ -1,8 +1,13 @@
+--
+~
 PRAGMA pragma_list;
 PRAGMA function_list;
 PRAGMA database_list;
 PRAGMA table_list;
 PRAGMA collation_list;
+PRAGMA module_list;
+PRAGMA foreign_key_list;
+PRAGMA index_list;
 ~
 vacuum
 ~
@@ -49,8 +54,16 @@ explain SELECT id,name,code,imemo,cmemo FROM memory where id<0
 -- 
 -- explain delete FROM memory where id>12
 ~
-EXPLAIN SELECT * FROM sqlite_master
+SELECT name as "table" FROM sqlite_master
+
 ~
 EXPLAIN QUERY PLAN SELECT * FROM sqlite_master
 ~
 CREATE TABLE test ("id" INTEGER, "name" varchar(100))
+~
+CREATE VIRTUAL TABLE ft USING fts5(a);
+INSERT INTO ft VALUES('a b c x c d e');
+INSERT INTO ft VALUES('a b c c d e');
+INSERT INTO ft VALUES('a b c d e');
+SELECT highlight(ft, 0, '[', ']') FROM ft WHERE ft MATCH 'a+b+c AND c+d+e'
+-- drop table ft

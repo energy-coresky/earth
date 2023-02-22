@@ -49,16 +49,26 @@ class earth_c extends Controller
 
     function j_sql_run() {
         SKY::$debug = 1;
-        for ($i = 0; false !== strpos($s = $_POST['s'], $rand = strand()); )
-            if (++$i > 99)
-                throw new Error(1);
-        $s = mb_substr($s, 0, $pos = $_POST['pos']) . $rand . mb_substr($s, $pos);
+        $s = $_POST['s'];
+        $dd = SQL::open($_POST['db']);
         $sql = '';
-        foreach (Rare::split($s) as $one) {
-            $ary = explode($rand, $one);
-            if (2 == count($ary)) {
-                $sql = trim($ary[0] . $ary[1]);
-                break;
+        if (-1 == ($pos = $_POST['pos'])) {
+            $ary = Rare::split($s);
+            printf("Executed %d SQL queries:<hr>%s<hr>last query result:<br>", count($ary), implode('<br>', $ary));
+            if ($ary)
+                for ($sql = array_shift($ary); count($ary); $sql = array_shift($ary))
+                    $dd->sqlf($sql);
+        } else {
+            for ($i = 0; false !== strpos($s, $rand = strand()); )
+                if (++$i > 99)
+                    throw new Error(1);
+            $s = mb_substr($s, 0, $pos) . $rand . mb_substr($s, $pos);
+            foreach (Rare::split($s) as $one) {
+                $ary = explode($rand, $one);
+                if (2 == count($ary)) {
+                    $sql = trim($ary[0] . $ary[1]);
+                    break;
+                }
             }
         }
         if ('' === $sql) {
@@ -67,7 +77,6 @@ class earth_c extends Controller
         }
 
         echo html($sql) . '<hr>';
-        $dd = SQL::open($_POST['db']);
         $ary = [];
         $values = function ($v) {
             $v = array_values($v);
@@ -110,7 +119,7 @@ class earth_c extends Controller
     }
 
     function j_pre_save() {
-        echo $this->t_earth->presave($_POST['f'], $_POST['s']);
+        echo $this->t_earth->presave($_POST['f'], trim($_POST['s']));
     }
 
 
