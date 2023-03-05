@@ -58,20 +58,25 @@
 
 #.func.merc //////////////////////////////////////////////////////////////////////////////
 @php $atyp = 'FUNCTIONS' ~php
-#.docs
+#.docs.default
 #use(.menu)
-#if($sky->_1=='docs')#use(.doc_m)#elseif($sky->_1=='merc')#use(.merc_m)#else#use(.func_m)#end
+#if($sky->fly==1)
+@loop($e_earth)@php $e_earth->func($e_earth, $row) ~php~loop
+#elseif($sky->_1=='docs')#use(.doc_m)
+#elseif($sky->_1=='merc')#use(.merc_m)
+#else#use(.func_m)
+#end
 <div>
 <div class="bg-wx bg-x" style="position:sticky; top:0px">
     <div style="font-weight:bold;font-size:16px;width:35%">{{$e_earth->doc[2] ?? ''}}</div>
-    <div style="width:35%;">@if(100!=$width)<button class="f2" onclick="sky.d.doc_save()">save - F2</button>~if</div>
+    <div style="width:35%;">@if($edit)<button class="f2" onclick="sky.d.doc_save()">save - F2</button>~if</div>
     <div style="width:27%; text-align:right">
-        <button onclick="sky.d.doc_edit()">@if(100!=$width)close ~if edit</button>
-        @if(100==$width)<button onclick="sky.d.doc_edit(1)">add</button>~if
+        <button onclick="sky.d.doc_edit()">@if($edit)close ~if edit</button>
+        @if(!$edit)<button onclick="sky.d.doc_edit(1)">add</button>~if
     </div>
 </div>
 <div style="display:inline-flex; width:100%">
-    <div style="width:45%;{{100==$width and ' display:none'}}">
+    <div style="width:45%;{{!$edit and ' display:none'}}">
         <div style="position:sticky; top:50px">
         <form style="padding-left:10px;" method="post" id="doc_save">
             <textarea name="s" style="width:97%; height:calc(100vh - 130px); ">{{$e_earth->doc[0] ?? ''}}</textarea>
@@ -81,15 +86,15 @@
         </form>
         </div>
     </div>
-    <div style="width:{{100==$width ? 'calc(100vw - 358px)' : '53%'}}">
-        <div style="margin:0 {{100==$width and '1'}}0px" id="doc_div">
-            @if(100!=$width)
+    <div style="width:{{!$edit ? 'calc(100vw - 358px)' : '53%'}}">
+        <div style="margin:0 {{!$edit and '1'}}0px" id="doc_div">
+            @if($edit)
             <br><input name="xname" value="{{$e_earth->doc[2] ?? ''}}" style="width:100%">
             ~if
             {!$e_earth->doc[1] ?? ''!}
         </div>
     </div>
-    <div id="r-menu" style="background:#eee;width:170px;{{100!=$width and ' display:none'}}">
+    <div id="r-menu" style="background:#eee;width:170px;{{$edit and ' display:none'}}">
         <div style="position:sticky; top:42px">
         <div class="other-task">
             <div class="fs16">Help topic</div>
@@ -99,9 +104,14 @@
     </div>
 </div>
 </div>
-#.docs.func.merc.doc_m.func_m.merc_m ------------------------------------------------------------------------------
+#.docs.func.merc.default.doc_m.func_m.merc_m ------------------------------------------------------------------------------
 @loop($e_earth)
-    <a href="_earth?{{$sky->_1}}={{$row->id}}" class="inner-menu"@active($e_earth->func($e_earth, $row))>{!$row->title!}</a>
+    @php $active = $e_earth->func($e_earth, $row) ~php
+    @if($edit)
+        <a href="_earth?{{$sky->_1}}={{$row->id}}" class="inner-menu"@active($active)>{!$row->title!}</a>
+    @else
+        <a @href(sky.d.open(this, {{$row->id}})) class="inner-menu"@active($active)>{!$row->title!}</a>
+    ~if
     @use(`<h3>CORESKY {{$atyp ?? 'DOCUMENTATION'}}: {{$e_earth->doc[4] ?? ''}}</h3>` as header)
 ~loop
 #.doc_m.func_m.merc_m
@@ -243,6 +253,14 @@ sky.d.cp = function(el) {
     sky.d.pos = el.selectionStart
     //let v = $(el).val(), c = v.substr(0, sky.d.pos).replace(/[^\n]/g, '');
     //$('#xtt').html(' <b>line</b>: ' + sky.d.pos + v.split(/\n/g)[c.length])
+};
+sky.d.open = function(el, id) {
+    $('a.inner-menu').removeAttr('active');
+    $(el).attr('active', 1);
+    ajax('{{$sky->_1}}&id=' + id, function(r) {
+        $('#dev-earth').html(r.html);
+        $('#top-head h3').html(r.h3);
+    });
 };
 
 $(function() {

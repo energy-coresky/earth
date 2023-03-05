@@ -70,7 +70,7 @@ class t_earth extends Model_t
                     $row->title = $row->fn;
                 }
                 if ($act = $row->id == $e->id)
-                    $e->doc = [$row->md, $this->md($row->md), $row->title, $this->topic($row->md), $row->dt_u];
+                    $e->doc = [$row->md, $this->md($row->md), $row->title, $this->topic($row->md), $this->dt_u = $row->dt_u];
                 return $act;
             },
         ];

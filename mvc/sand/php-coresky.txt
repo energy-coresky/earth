@@ -13,7 +13,12 @@ echo '<h1>Far manager colorer</h1>';
 $earth = Plan::_g('mvc/earth_c.php');
 echo tag(Display::php($earth, str_pad('', 22, '=').'*'), 'style="background:#222"');
 ~
-1
+var_dump(0 == 'xx');
+var_dump(1 == 'xx');
+var_dump(0 == '11');
+var_dump(1 == '11');
+var_dump(0 == '1');
+var_dump(1 == '1');
 ~
 global $sky;
 echo $sky->s_version . "\n";

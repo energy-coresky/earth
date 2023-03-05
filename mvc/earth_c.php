@@ -160,7 +160,18 @@ class earth_c extends Controller
         SKY::w('last_' . $x, $this->_2);
         return [
             'e_earth' => $this->t_earth->listing(),
-            'width' => $this->w_width ?: 100,
+            'edit' => 55 == $this->w_width,
         ];
+    }
+
+    function default_j() {
+        $id = $this->_3;
+        unset($_GET['id']);
+        $_GET += [$id => $id];
+        SKY::w('last_link', "_earth?$this->_1=$id");
+        json([
+            'html' => view('earth.default', $this->a_func($this->_1)),
+            'h3' => $this->dt_u,
+        ]);
     }
 }
