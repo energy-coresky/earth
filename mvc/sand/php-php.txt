@@ -1,3 +1,19 @@
+declare(ticks=1);
+
+function tick_handler()
+{
+    echo "Call tick_handler()\n";
+}
+
+register_tick_function('tick_handler');
+
+$a = 1; // call tick
+
+if ($a > 0) {
+    $a += 2; // call tick
+    print($a); // call tick
+}
+~
 $out = '';
 $in = ['A', ['x' => 'B', ['y' => 'C'], 'D']];
 array_walk_recursive($in, function (&$v, $k) use (&$out) {

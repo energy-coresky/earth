@@ -1,3 +1,21 @@
+declare(ticks=1);
+//declare(encoding='ISO-8859-1');
+//declare(strict_types=1);
+
+function tick_handler()
+{ static $i=0;
+    echo ++$i . ". Call tick_handler()\n";
+}
+
+register_tick_function('tick_handler');
+
+$a = 100; // call tick
+
+if ($a > 0) {
+    $a += 2; // call tick
+    print ($a) . " "; // call tick
+}
+
 $url = 'http://username:password@hostname/path?arg=value#anchor';
 
 print_r(parse_url($url));

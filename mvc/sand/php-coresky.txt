@@ -4,14 +4,13 @@ echo Plan::var($list);
 $earth = Plan::view_g('_earth.jet');
 echo Display::jet($earth, 'sandbox');
 ~
-ini_set('highlight.default', '#7ee');
-ini_set('highlight.comment', '#68a');
-ini_set('highlight.html', ';background:#777');
-ini_set('highlight.keyword', '#fff');
-ini_set('highlight.string', '#ff5');
-echo '<h1>Far manager colorer</h1>';
-$earth = Plan::_g('mvc/earth_c.php');
-echo tag(Display::php($earth, str_pad('', 22, '=').'*'), 'style="background:#222"');
+# add to PATH env path to the "sky"
+for ($i=0; $i<20; $i++)
+  Console::thread('sky eval "Console::test();" 2>&1');
+# Wait 10 sec max. Expect 2-4 call per thread
+Console::thread(function($stdout, $id, $is_error) {
+  echo "id$is_error$id=$stdout ";
+});
 ~
 var_dump(0 == 'xx');
 var_dump(1 == 'xx');
@@ -19,6 +18,7 @@ var_dump(0 == '11');
 var_dump(1 == '11');
 var_dump(0 == '1');
 var_dump(1 == '1');
+print_r(Util::get_classes([], [], -1));
 ~
 global $sky;
 echo $sky->s_version . "\n";
@@ -60,9 +60,18 @@ $s = implode("\n", $a);
 echo $s . "\n".strlen($s);
 ~
 $sql = <<<EOD
- ;;; select "qq;ww========================;;;====================================================";
+ ;;; select "qq;ww==========;;;============";
  select 1;
 update '111' ; -> qq ;
 EOD;
 echo Plan::var($ary = Rare::split($sql)) . "\n";
 print_r($ary);
+~
+ini_set('highlight.default', '#7ee');
+ini_set('highlight.comment', '#68a');
+ini_set('highlight.html', ';background:#777');
+ini_set('highlight.keyword', '#fff');
+ini_set('highlight.string', '#ff5');
+echo '<h1>Far manager colorer</h1>';
+$earth = Plan::_g('mvc/earth_c.php');
+echo tag(Display::php($earth, str_pad('', 22, '=').'*'), 'style="background:#222"');
