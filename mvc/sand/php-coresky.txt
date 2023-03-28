@@ -1,3 +1,11 @@
+# add to PATH env path to the "sky"
+for ($i=0; $i<20; $i++)
+  Console::thread('sky eval "Console::test();" 2>&1');
+# Wait 10 sec max. Expect 2-4 call per thread
+Console::thread(function($stdout, $id, $is_error) {
+  echo "id$is_error$id=$stdout ";
+});
+~
 print_r($list = Plan::_b('mvc/sand/*'));
 echo Plan::var($list);
 ~
@@ -19,6 +27,9 @@ var_dump(1 == '11');
 var_dump(0 == '1');
 var_dump(1 == '1');
 print_r(Util::get_classes([], [], -1));
+~
+$d = '../air_wares/earth';
+print_r(Globals::def($d));
 ~
 global $sky;
 echo $sky->s_version . "\n";
@@ -48,7 +59,7 @@ class e {
 
 $s = strip_tags($s, '<span><br>');
 
- $search=['<br /></span>', '<br />', '<span style="color: ">'];  $replace=["</span>\n", "\n", '']; 
+$search=['<br /></span>', '<br />', '<span style="color: ">']; $replace=["</span>\n", "\n", '']; 
 // $search=['<span style="color: ">'];  $replace=['']; 
 $s = str_replace($search, $replace, $s);
 $s = substr($s, 0, -8);$s = trim($s);

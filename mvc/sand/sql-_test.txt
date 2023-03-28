@@ -1,4 +1,5 @@
-select id, name, imemo, dt from $_memory order by id
+select id, name, imemo, dt from $_memory order by id;
+select * from $_memory where id=11;
 ~
 +select 1+11
 ~
