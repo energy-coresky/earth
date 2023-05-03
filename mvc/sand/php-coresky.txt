@@ -28,8 +28,12 @@ var_dump(0 == '1');
 var_dump(1 == '1');
 print_r(Util::get_classes([], [], -1));
 ~
-$d = '../air_wares/earth';
-print_r(Globals::def($d));
+$d = '../air_wares/upload';
+#print_r(Globals::def($d));
+$content = Plan::_g(['upload', 'mvc/default_c.php']);
+$g = Globals::instance();
+$methods = $g->parse_def('default_c', $content);
+print_r($methods);
 ~
 global $sky;
 echo $sky->s_version . "\n";

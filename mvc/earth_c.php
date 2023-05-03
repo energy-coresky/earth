@@ -72,7 +72,7 @@ class earth_c extends Controller
             }
         }
         if ('' === $sql) {
-            printf(span_r, 'empty SQL query');
+            L::r('empty SQL query');
             return;
         }
 
@@ -94,7 +94,7 @@ class earth_c extends Controller
                         echo td([-1 => [1 + $i, 'style="width:5%"']] + $values($v), eval(zebra));
                     echo '</table>';
                 } else {
-                    echo sprintf(span_r, 'empty result') . '<hr>';
+                    echo L::r('empty result') . '<hr>';
                 }
                 return;
             }

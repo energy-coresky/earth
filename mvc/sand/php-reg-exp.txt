@@ -11,4 +11,4 @@ preg_match_all($s, $str, $m, $f);
 print_r($m);
 
 ~
-echo preg_quote('$^-[]()!@_', '/');
+echo preg_quote('/ @ . \ + * ? [ ] ^ $ ( ) { } = ! < > | : -', '@');
