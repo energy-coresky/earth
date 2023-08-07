@@ -1,7 +1,10 @@
-SKY::$debug=0;
-//echo sqlf('update $_memory set id=id-20');
+$d=file('z.php');
 
-
+foreach($d as &$v) {
+$v=trim($v);
+  if (','==$v[-1])
+    echo $v . "\n";
+}
 ~
 $str = 'The t123st st987ring';
 $s = '/t(\d+)/';

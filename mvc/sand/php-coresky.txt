@@ -12,13 +12,8 @@ echo Plan::var($list);
 $earth = Plan::view_g('_earth.jet');
 echo Display::jet($earth, 'sandbox');
 ~
-# add to PATH env path to the "sky"
-for ($i=0; $i<20; $i++)
-  Console::thread('sky eval "Console::test();" 2>&1');
-# Wait 10 sec max. Expect 2-4 call per thread
-Console::thread(function($stdout, $id, $is_error) {
-  echo "id$is_error$id=$stdout ";
-});
+$d = '../air_wares/upload';
+print_r(Globals::def($d));
 ~
 var_dump(0 == 'xx');
 var_dump(1 == 'xx');
@@ -26,14 +21,13 @@ var_dump(0 == '11');
 var_dump(1 == '11');
 var_dump(0 == '1');
 var_dump(1 == '1');
-print_r(Util::get_classes([], [], -1));
+print_r(Debug::get_classes([], [], -1));
 ~
-$d = '../air_wares/upload';
-#print_r(Globals::def($d));
 $content = Plan::_g(['upload', 'mvc/default_c.php']);
 $g = Globals::instance();
 $methods = $g->parse_def('default_c', $content);
-print_r($methods);
+//$methods = array_map('is_int', $methods);
+var_export($methods);
 ~
 global $sky;
 echo $sky->s_version . "\n";
