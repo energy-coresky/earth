@@ -1,4 +1,4 @@
-last_sand jsc
+last_sand php
 last_docs 12
 last_func 5
 width 100
