@@ -1,3 +1,11 @@
+$redis = new Redis();
+
+$redis->connect('localhost', 6379);
+//$redis->auth('password');
+
+if ($redis->ping())
+   echo "PONG";
+~
 echo $q ?? 333;
 $q = 111;
 echo $q ?: 333;

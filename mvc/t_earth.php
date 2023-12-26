@@ -15,7 +15,7 @@ class t_earth extends Model_t
     function head_y() {
         $conf = Plan::_r('conf.php');
         if ($this->is_merc)
-            $conf = require Plan::_obj(0)->path . '/../mercury/conf.php';
+            $conf = require Plan::_obj('path') . '/../mercury/conf.php';
         SKY::$databases += $conf['app']['databases'];
         return SQL::open($this->is_merc ? '_w' : '_e');
     }
@@ -38,6 +38,8 @@ class t_earth extends Model_t
 
     function save() {
         $id = $_POST['id'];
+        if (6 == $id && 'docs' == $this->table)
+            $this->m_air->parse($_POST['s']);
         $ary = [
             $this->is_merc ? 'tpl' : 'md' => $_POST['s'],
             '!dt_u' => '$now',

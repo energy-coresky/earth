@@ -1,3 +1,14 @@
+$redis = new Redis;
+$redis->connect('localhost', 6379);
+
+//$redis->flushAll();
+
+print_r($redis->ttl('ab/cache/sky_plan.php'));
+echo "\n";
+print_r($redis->keys('*'));
+echo "\n"
+  . $redis->get('ab/gate/main-c_main.php');
+~
 declare(ticks=1);
 //declare(encoding='ISO-8859-1');
 //declare(strict_types=1);
