@@ -1,3 +1,13 @@
+$ary = get_defined_constants(true); # "qq:{$aa[: ]}": qq
+$s = array_flip($ary['tokenizer']) + [''];
+
+$php = '<?php #?>: ?> # eee';
+
+foreach (token_get_all($php) as $v) {
+  [$k, $v] = is_array($v) ? $v : [0, $v];
+  echo "$s[$k] --> '$v'\n";
+}
+~
 $redis = new Redis;
 $redis->connect('localhost', 6379);
 

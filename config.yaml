@@ -1,0 +1,10 @@
+core:
+  plans:
+    view: {path: __DIR__/mvc}
+    cfg: {path: __DIR__/mvc}
+    app:
+      type: dev
+      require: SQLite3 Parsedown
+  databases:
+    driver: sqlite3
+    dsn: __DIR__/earth.base

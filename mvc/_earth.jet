@@ -240,7 +240,7 @@ sky.d.pre_run = function(pos) {
         return js_run(s)
     }
     pos = pos || sky.d.pos
-    ajax('{{$sky->_2}}_run', {s:s, chk:chk, pos:pos, db:'{{'main'==$sky->_4?'':$sky->_4}}'}, function(r) {
+    ajax('{{$sky->_2}}_run', {s:s, chk:chk, pos:pos, db:'{{$sky->_4?:'main::core'}}'}, function(r) {
         sky.d.panel(0);
         $('#pre-form').prev().html('<pre>' + r + '</pre>');
     });

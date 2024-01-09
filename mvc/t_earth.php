@@ -13,11 +13,11 @@ class t_earth extends Model_t
     }
 
     function head_y() {
-        $conf = Plan::_r('conf.php');
-        if ($this->is_merc)
-            $conf = require Plan::_obj('path') . '/../mercury/conf.php';
-        SKY::$databases += $conf['app']['databases'];
-        return SQL::open($this->is_merc ? '_w' : '_e');
+        #if ($this->is_merc)
+        #    $conf = require Plan::_obj('path') . '/../mercury/conf.php';
+//        SKY::$databases += $conf['app']['databases'];
+        //return SQL::open($this->is_merc ? '_w' : '_e');
+        return SQL::open();
     }
 
     function md($text) {

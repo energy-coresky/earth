@@ -50,7 +50,8 @@ class earth_c extends Controller
     function j_sql_run() {
         SKY::$debug = 1;
         $s = $_POST['s'];
-        $dd = SQL::open($_POST['db']);
+        [$ware, $db] = explode('::', $_POST['db']);
+        $dd = SQL::open($db, $ware);
         $sql = '';
         if (-1 == ($pos = $_POST['pos'])) {
             $ary = Rare::split($s);

@@ -1,3 +1,5 @@
+$ary = get_defined_constants(true);
+~
 $redis = new Redis();
 
 $redis->connect('localhost', 6379);

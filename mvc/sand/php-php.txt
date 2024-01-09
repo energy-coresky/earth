@@ -46,19 +46,17 @@ list($month, $day, $year) = sscanf('Январь 01 2000', "%s %d %d");
 echo "$year-$month $day";
 ~
 $ary = get_defined_constants(true);
-$s = array_flip($ary['tokenizer']);
+$s = array_flip($ary['tokenizer']) + [''];
+
 $php = '<?php
 use SebastianBergmann\Diff\Differ;
 class Gape extends Bolt {}';
-//$php = Plan::_g('mvc/earth_c.php');
-$out = [];
+
+//$php = Plan::_g('mvc/earth_c.php');$out = [];
+
 foreach (token_get_all($php) as $v) {
-  $id = 0;
-  if (is_array($v)) {
-  list($id, $str) = $v;
-  $v = $str;
-  echo "$s[$id] --> $v\n";
-  } else echo "$v\n";
+  [$k, $v] = is_array($v) ? $v : [0, $v];
+  echo "$s[$k] --> '$v'\n";
 }
 ~
 $ary = SKY::$dd->_struct('ctry');
