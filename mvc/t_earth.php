@@ -13,11 +13,7 @@ class t_earth extends Model_t
     }
 
     function head_y() {
-        #if ($this->is_merc)
-        #    $conf = require Plan::_obj('path') . '/../mercury/conf.php';
-//        SKY::$databases += $conf['app']['databases'];
-        //return SQL::open($this->is_merc ? '_w' : '_e');
-        return SQL::open();
+        return SQL::open('core', $this->is_merc ? 'mercury' : 'earth');
     }
 
     function md($text) {
@@ -64,14 +60,15 @@ class t_earth extends Model_t
 
     function listing() {
         return [
-            'query' => $this->all(),
-            'id' => isset($_GET['add']) ? 0 : ($this->_2 ?: 1),
-            'func' => function ($e, $row) {
+            'e_earth' => $this->all(),
+            'id' => $id = isset($_GET['add']) ? 0 : ($this->_2 ?: 1),
+            'edit' => 55 == $this->w_width,
+            'func' => function ($e, $row) use ($id) {
                 if ($this->is_merc) {
                     $row->md = $row->tpl;
                     $row->title = $row->fn;
                 }
-                if ($act = $row->id == $e->id)
+                if ($act = $row->id == $id)
                     $e->doc = [$row->md, $this->md($row->md), $row->title, $this->topic($row->md), $this->dt_u = $row->dt_u];
                 return $act;
             },

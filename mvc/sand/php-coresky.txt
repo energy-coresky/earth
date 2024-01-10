@@ -42,7 +42,7 @@ echo Plan::var (
 ) . "\n";
 
 print_r (
-  SQL::open('', 'venus')->_tables()
+  SQL::open('core', 'venus')->_tables()
 );
 //new AbsentClass;
 ~

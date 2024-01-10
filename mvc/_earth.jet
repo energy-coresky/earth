@@ -61,7 +61,7 @@
 #.docs.default
 #use(.menu)
 #if($sky->fly==1)
-@loop($e_earth)@php $e_earth->func($e_earth, $row) ~php~loop
+@loop($e_earth)@php $func($e_earth, $row) ~php~loop
 #elseif($sky->_1=='docs')#use(.doc_m)
 #elseif($sky->_1=='merc')#use(.merc_m)
 #else#use(.func_m)
@@ -80,7 +80,7 @@
         <div style="position:sticky; top:50px">
         <form style="padding-left:10px;" method="post" id="doc_save">
             <textarea name="s" style="width:97%; height:calc(100vh - 130px); ">{{$e_earth->doc[0] ?? ''}}</textarea>
-            <input type="hidden" name="id" value="{{$e_earth->id}}">
+            <input type="hidden" name="id" value="{{$id}}">
             <input type="hidden" name="tbl" value="{{$sky->_1}}">
             <input type="hidden" name="title" value="">
         </form>
@@ -106,7 +106,7 @@
 </div>
 #.docs.func.merc.default.doc_m.func_m.merc_m ------------------------------------------------------------------------------
 @loop($e_earth)
-    @php $active = $e_earth->func($e_earth, $row) ~php
+    @php $active = $func($e_earth, $row) ~php
     @if($edit)
         <a href="_earth?{{$sky->_1}}={{$row->id}}" class="inner-menu"@active($active)>{!$row->title!}</a>
     @else

@@ -123,7 +123,6 @@ class earth_c extends Controller
         echo $this->t_earth->presave($_POST['f'], trim($_POST['s']));
     }
 
-
     function j_save() {
         $ary = $this->t_earth->save();
         $ary[1] ? json(['jump' => "?$_POST[tbl]=" . $ary[1]]) : print($ary[0]);
@@ -159,10 +158,7 @@ class earth_c extends Controller
 
     function a_func($x = 'func') {
         SKY::w('last_' . $x, $this->_2);
-        return [
-            'e_earth' => $this->t_earth->listing(),
-            'edit' => 55 == $this->w_width,
-        ];
+        return $this->t_earth->listing();
     }
 
     function default_j() {
