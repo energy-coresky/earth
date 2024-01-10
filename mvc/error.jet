@@ -5,12 +5,3 @@
 <h1>Stdout</h1>
 <pre>{!isset($stdout) ? html($stdout) : L::m('Var $stdout not set') !}</pre>
 #._ magic marker
-
-
-#._777
-Test error.jet in Ware
-<h1>Stdout</h1>{!$stdout ?? '--'!}<br>
-{{$var}}
-#._777
-
-
