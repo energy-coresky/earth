@@ -3,8 +3,8 @@ core:
     app:
       type: dev
       require: SQLite3 Parsedown
-    view: {path: __DIR__/mvc}
-    cfg: {path: __DIR__/mvc}
+    view: {path: $SELF/mvc}
+    cfg: {path: $SELF/mvc}
   databases:
     driver: sqlite3
-    dsn: __DIR__/earth.base
+    dsn: $SELF/earth.base

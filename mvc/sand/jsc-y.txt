@@ -1,13 +1,17 @@
-const allCSS = [...document.styleSheets]
-  .map((styleSheet) => {
-    try {
-      return [...styleSheet.cssRules].map((rule) => rule.cssText).join("");
-    } catch (e) {
-      console.log(
-        "Access to stylesheet %s is denied. Ignoring…",
-        styleSheet.href,
-      );
-    }
-  })
-  .filter(Boolean)
-  .join("\n");
+let url = 'http://des.loc/hole/public/acl/qq333?sandbox=jsc';
+let qs = url.substr(sky.home.length),
+  p = qs.split('?', 2), s;
+let tune = 'acl';
+
+if ('' !== tune) {
+  p[0] = p[0].substr(1 + tune.length);
+}
+
+s = p[0].split('/')[0]
+
+out = qs + "\n";
+out += p + "\n-------- : ";
+
+out += '' === s ? (p.length == 2 ? p[1].split('#')[0].split('=')[0] : 'main') : s;
+
+out += ' x' + ''.split('/')[0]

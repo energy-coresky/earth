@@ -1,3 +1,6 @@
+$x = require DIR_S . '/w2/console.php';
+var_dump($x);
+~
 $d=file('z.php');
 
 foreach($d as &$v) {
