@@ -7,7 +7,7 @@ class m_air extends Model_m
             return;
 
         [, $begin, $tbl, $end] = $match;
-        $x = [0, 0, 0, 2, 1, 0];
+        $x = [0, 0, 0, 2, 1, 0, 0];
         $other = ['sky.php', 'sky', 'etc/moon.php', 'assets/dev.css', 'assets/dev.js', 'assets/sky.css', 'assets/sky.js'];
 
         $tbl = explode("\n", unl(trim($tbl)));
@@ -31,7 +31,8 @@ class m_air extends Model_m
                 $x[3] += ($n3 = count($ary['CLASS']));
                 $x[4] += ($n4 = count($ary['INTERFACE']));
                 $x[5] += ($n5 = count($ary['TRAIT']));
-                $cnt = $n2 . ', ' . ($n3 + $n4 + $n5);
+                $x[6] += ($n6 = count($ary['ENUM']));
+                $cnt = $n2 . ', ' . ($n3 + $n4 + $n5 + $n6);
             }
             $fn = implode(' | ', [$base = basename($fn), "$lines<br>$sz", $cnt, $tbl[$base] ?? '---']);
         }
@@ -49,7 +50,7 @@ class m_air extends Model_m
             . "Файл | Строк,<br>размер | Описание\n:--- | :--- | :---\n" . implode("\n", $other)
             . "\n\nИтого **Coresky** это: " . (count($w2) + count($other)) . " файлов, $x[0] строк кода, "
             . round($x[1] / 1024, 1) . " kBytes. В глобальной области видимости: $x[2] именованных функций PHP, "
-            . ($x[3] + $x[4] + $x[5]) . " классов PHP, из них $x[4] интерфейса и $x[5] трейта.";
+            . ($x[3] + $x[4] + $x[5] + $x[6]) . " классов PHP, из них $x[4] интерфейса, $x[5] трейта и $x[6] перечислений.";
         $article = "$begin\n$head\n$tbl\n$end";
     }
 }

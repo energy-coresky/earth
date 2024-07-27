@@ -23,11 +23,12 @@ var_dump(0 == '1');
 var_dump(1 == '1');
 print_r(Debug::get_classes([], [], -1));
 ~
-$content = Plan::_g(['upload', 'mvc/default_c.php']);
-$g = Globals::instance();
-$methods = $g->parse_def('default_c', $content);
-//$methods = array_map('is_int', $methods);
-var_export($methods);
+$my_env_file = '
+# this is an commnet
+KEY1=VAL1
+KEY2=VAL2
+'; # unl - UnixNewLine
+print_r(bang(unl($my_env_file), '='));
 ~
 global $sky;
 echo $sky->s_version . "\n";
@@ -37,14 +38,15 @@ $app = '2221';
 $len = strlen(substr($app, 1 + strpos($app, '.')));
 echo "$len\n".date('c', SKY::version()['app'][0]);
 ~
-echo Plan::var (
-  SKY::$dd->_tables()
-) . "\n";
+#$s = file_get_contents(DIR_S. '/w2/boot.php');
+$s = file_get_contents(DIR. '/var/jet/dev-p-__dev.layout-_.php');
 
-print_r (
-  SQL::open('core', 'venus')->_tables()
-);
-//new AbsentClass;
+ini_set('highlight.html', '#22b');
+ini_set('highlight.default', '#000');
+ini_set('highlight.keyword', '#292');
+//ini_set('highlight.comment', '#000');
+
+print(Display::_php($s, '=*=*'));
 ~
 $a = ['default'=>'#b11', 'comment'=>'#68a', 'html'=>'', 'keyword'=>'#d11', 'string'=>'#aa3'];
 foreach ($a as $k => $v)
@@ -76,11 +78,9 @@ EOD;
 echo Plan::var($ary = Rare::split($sql)) . "\n";
 print_r($ary);
 ~
-ini_set('highlight.default', '#7ee');
-ini_set('highlight.comment', '#68a');
-ini_set('highlight.html', ';background:#777');
-ini_set('highlight.keyword', '#fff');
-ini_set('highlight.string', '#ff5');
+Display::scheme('b_far');
 echo '<h1>Far manager colorer</h1>';
-$earth = Plan::_g('mvc/earth_c.php');
-echo tag(Display::php($earth, str_pad('', 22, '=').'*'), 'style="background:#222"');
+//$s = Plan::_g('mvc/earth_c.php');
+//$s = file_get_contents(DIR. '/var/jet/dev-p-__dev.layout-_.php');
+$s = file_get_contents(DIR_S. '/w2/boot.php');
+echo Display::_php($s, str_pad('', 19, '=').'-++--...********');

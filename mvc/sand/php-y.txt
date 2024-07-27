@@ -1,3 +1,9 @@
+function ick() { 
+    
+}
+
+//print_r(parse_url($url));
+~
 $ary = get_defined_constants(true); # "qq:{$aa[: ]}": qq
 $s = array_flip($ary['tokenizer']) + [''];
 
