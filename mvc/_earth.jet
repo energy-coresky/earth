@@ -46,6 +46,11 @@
 </h3>
 #.header
 
+#.zml
+#use(.menu)
+@inc(_zml.list)
+#.zml
+
 #.port
 #use(.menu)
 #.port
@@ -119,6 +124,7 @@
 <br>
 <div class="other-task" style="position:sticky; top:50px" title="{{SKY::$plans['earth']['app']['path']}}">Earth</div>
 <a href="_earth?sandbox={{$sky->w_last_sand ?: 'php'}}"@active('sandbox' == $sky->_1)>Sandboxes</a>@block(`` as sand)
+<a href="_earth?zml="@active('zml' == $sky->_1)>View ZML files</a>@block(`` as zml)
 <a href="_earth?port="@active('port' == $sky->_1)>Porting Databases</a>@block(`` as port)
 <a href="_earth?phar="@active('phar' == $sky->_1)>Prepare Phars</a>@block(`` as phar)
 <a href="_earth?docs={{$sky->w_last_docs ?: 1}}"@active('docs' == $sky->_1)>Coresky Doc</a>@block(`` as doc_m)
