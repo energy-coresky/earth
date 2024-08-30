@@ -6,7 +6,11 @@ class t_zml extends Model_t
         SKY::w('zml_file', $fn);
         if (!is_file($fn))
             return $this->dev->error("File `$fn` not found");
-        echo $fn;
-
+        $zml = new ZML($fn);
+        echo Debug::out($zml->bang);
+        $ary = [];
+        foreach ($zml->read() as $pos => $y)
+            $ary[$pos] = trim($y->line);
+        echo Debug::out($ary);
     }
 }

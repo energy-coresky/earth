@@ -1,8 +1,8 @@
-last_sand sql
-last_docs 9
+last_sand php
+last_docs 5
 last_func 34
 width 100
-last_link _earth?docs=9
+last_link _earth?zml=
 sand_esc 1
 last_merc 10
 last_zml 

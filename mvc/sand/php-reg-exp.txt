@@ -1,3 +1,7 @@
+$chunk = "END:\ndfgrg";
+preg_match("/^([A-Z]+:)(| [^\n]+)\n/s", $chunk, $m);
+var_export($m);
+~
 $re = "/^[\w\d_\.]{3,30}$/u";
 $str = 'НаРуссском';
 echo preg_match($re, $str);

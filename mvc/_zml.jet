@@ -5,6 +5,7 @@
     &nbsp; <input name="zml" value="{{$sky->w_zml_file ?: 'var/app.sky'}}">
     &nbsp; <button class="Esc" onclick="sky.d.zml()">Scan</button>
 </div>
+<div id="zml" style="padding:10px 0 0 10px"></div>
 
 @inc(.jscss)
 #.list
@@ -14,7 +15,7 @@
 <script>
 sky.d.zml = function() {
     ajax('zml', {fn: $('input[name=zml]').val()}, function(r) {
-        ;
+        $('#zml').html(r);
     });
 };
 sky.d.zml();
