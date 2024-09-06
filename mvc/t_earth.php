@@ -53,7 +53,7 @@ class t_earth extends Model_t
     }
 
     function topic($md) {
-        preg_match_all("!^### (.*)!m", $md, $m);
+        preg_match_all("!^## (.*)!m", $md, $m);
         $s = view('earth.topic', ['ary' => $m]);
         return $s;
     }
