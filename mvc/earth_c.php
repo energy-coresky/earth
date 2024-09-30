@@ -131,12 +131,12 @@ class earth_c extends Controller
             echo '&add';
     }
 
-    function j_zml() {
-        return $this->t_zml->view($_POST['fn']);
+    function j_parse() {
+        return $this->t_parse->run($_POST['fn']);
     }
 
-    function a_zml() {
-        return [];
+    function a_parse() {
+        return $this->t_parse->def($this->_2);
     }
 
     function a_port() {

@@ -1,9 +1,14 @@
 last_sand php
-last_docs 3
-last_func 34
+last_docs 5
+last_func 17
 width 100
-last_link _earth?docs=3
+last_link _earth?parse=php
 sand_esc 1
 last_merc 10
 last_zml 
+last_parse=zml 
 zml_file var/hole.sky
+php_file ../air/w2/svg.php
+yml_file main/config.yaml
+js_file ../air/assets/sky.js
+css_file ../air/assets/sky.css

@@ -1,0 +1,44 @@
+#.jet core
+
+#.layout //////////////////////////////////////////////////////////////////////////////
+<div class="bg-wx bg-x" style="position:sticky; top:0px">
+    <div class="fs16" onclick="sky.d.panel(0)" style="line-height:37px">Filename:</div>
+    &nbsp; <input name="fn" value="{{$sky->{"w_{$sky->_2}_file"} ?: $default}}">
+    &nbsp; <button class="Esc" onclick="sky.d.{{$sky->_2}}()">Scan</button>
+</div>
+<div id="body" style="padding:10px 0 0 10px"></div>
+
+<script>
+sky.d.{{$sky->_2}} = function() {
+    ajax('parse&{{$sky->_2}}', {fn: $('input[name=fn]').val()}, function(r) {
+        $('#body').html(r);
+    });
+};
+sky.d.{{$sky->_2}}();
+</script>
+@inc(.jscss)
+#.layout
+
+#.php //////////////////////////////////////////////////////////////////////////////
+11
+#.php
+
+#.js
+22
+#.js
+
+#.css
+33
+#.css
+
+#.xml
+44
+#.xml
+
+#.yml
+55
+#.yml
+
+#.jscss
+
+#.jscss
