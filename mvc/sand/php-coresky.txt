@@ -1,3 +1,19 @@
+$php = new PHP(file_get_contents(DIR_S . '/w2/php.php'));
+foreach ($php->rank() as $y) {
+    if ($y->open)
+        echo $y->str,
+        $php->str($y->open, $php->get_close($y)),
+        PHP_EOL;
+}
+~
+$php = new PHP(file_get_contents(DIR_S . '/w2/php.php'));
+foreach ($php->rank() as $y) {
+    if ($y->open)
+        echo $y->str,
+        $php->str($y->open, $php->get_close($y)),
+        PHP_EOL;
+}
+~
 # add to PATH env path to the "sky"
 for ($i=0; $i<20; $i++)
   Console::thread('sky eval "Console::test();" 2>&1');

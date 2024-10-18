@@ -24,9 +24,23 @@ class t_parse extends Model_t
     }
 
     function php($fn) {
-        $php = new PHP(file_get_contents($fn));
-        $php->parse();
-        echo pre(html(var_export($php->array, true)));
+        $php = PHP::file($fn);
+        if ($php->syntax_fail)
+            throw new Error($php->syntax_fail);
+        $out = '';
+        foreach ($php->rank() as $zz => $y) {
+            if (T_STRING == $y->tok) {
+                $s = $php->pos . ".$php->curly $zz $y->line " . token_name($y->tok) . ' ' . $php->get_real($y);
+                $s .= " ------------------- " . (is_int($y->rank) ? strtolower(token_name($y->rank)) : $y->rank);
+                if ($y->open)
+                    $s .= $php->str($y->open, $php->get_close($y));
+                $out .= "===================== \n$s\n";
+            } #else { $out .= $php->curly . " == $y->str\n"; }
+        }
+        $out = var_export($php->use, true) . var_export($php->ns, true) .
+            //var_export($php->_tokens_def, true) . 
+            $out;
+        echo pre(html($out));
     }
 
     function js($fn) {

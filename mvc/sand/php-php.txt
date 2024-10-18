@@ -45,18 +45,19 @@ socket_close($sock);
 list($month, $day, $year) = sscanf('Январь 01 2000', "%s %d %d");
 echo "$year-$month $day";
 ~
-$ary = get_defined_constants(true);
-$s = array_flip($ary['tokenizer']) + [''];
-
 $php = '<?php
+class A
+{
+    const PUBLIC = 1;
+}
 use SebastianBergmann\Diff\Differ;
 class Gape extends Bolt {}';
 
 //$php = Plan::_g('mvc/earth_c.php');$out = [];
 
-foreach (token_get_all($php) as $v) {
+foreach (token_get_all($php, TOKEN_PARSE) as $v) {
   [$k, $v] = is_array($v) ? $v : [0, $v];
-  echo "$s[$k] --> '$v'\n";
+  echo token_name($k)." --> '$v'\n";
 }
 ~
 $ary = SKY::$dd->_struct('ctry');
