@@ -131,12 +131,13 @@ class earth_c extends Controller
             echo '&add';
     }
 
-    function j_parse() {
-        return $this->t_parse->run($_POST['fn']);
+    function a_parse() {
+        SKY::w('last_parse', $this->_2);
+        return $this->t_parse->def($this->_2);
     }
 
-    function a_parse() {
-        return $this->t_parse->def($this->_2);
+    function j_parse() {
+        return $this->t_parse->run($_POST['fn']);
     }
 
     function a_port() {

@@ -1,16 +1,18 @@
 #.jet core
 
 #.layout //////////////////////////////////////////////////////////////////////////////
+#use(_earth.menu as menu)
+#use(.parse_m)
 <div class="bg-wx bg-x" style="position:sticky; top:0px">
     <div class="fs16" onclick="sky.d.panel(0)" style="line-height:37px">Filename:</div>
     &nbsp; <input name="fn" value="{{$sky->{"w_{$sky->_2}_file"} ?: $default}}">
     &nbsp; <button class="Esc" onclick="sky.d.{{$sky->_2}}()">Scan</button>
+    &nbsp; &nbsp; @block(`` as right)
 </div>
 <div id="body" style="padding:10px 0 0 10px"></div>
-
 <script>
-sky.d.{{$sky->_2}} = function() {
-    ajax('parse&{{$sky->_2}}', {fn: $('input[name=fn]').val()}, function(r) {
+sky.d.{{$sky->_2}} = function(m) {
+    ajax('parse&{{$sky->_2}}', {fn: $('input[name=fn]').val(), m:m || ''}, function(r) {
         $('#body').html(r);
     });
 };
@@ -19,25 +21,44 @@ sky.d.{{$sky->_2}}();
 @inc(.jscss)
 #.layout
 
-#.php //////////////////////////////////////////////////////////////////////////////
-11
-#.php
+#.php //////////////////////////////////////////////////////////////////////////////{!$list!}
+@inc(.layout)
+#use(.right)
+#.php.right
+Mode: <div id="sand-pre"> &nbsp;
+@loop($php_m as $v)
+    <a@active($v == $sky->w_last_php_m) @href(sky.d.php('{{$v}}'))>{{($_ < 2 ? 'rank ':'') . $v}}</a>
+~loop
+</div>
+#.right
 
 #.js
-22
+@inc(.layout)
 #.js
 
 #.css
-33
+@inc(.layout)
 #.css
 
 #.xml
-44
+@inc(.layout)
 #.xml
 
 #.yml
-55
+@inc(.layout)
 #.yml
+
+#.zml
+@inc(.layout)
+#.zml
+
+#.parse_m
+@loop($parse_m as $v)
+    <a href="_earth?parse={{$v}}" class="inner-menu"@active($v == $sky->_2)>Parse
+        {{'js' == $v ? 'Javascript' : strtoupper($v)}}
+    </a>
+~loop
+#.parse_m
 
 #.jscss
 
