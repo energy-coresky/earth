@@ -1,4 +1,35 @@
-$php = new PHP(file_get_contents(DIR_S . '/w2/php.php'));
+$php = PHP::file(DIR_S . '/w2/mvc.php');
+$pos = -1;
+foreach ($php->rank() as $y) {
+    if ('CLASS' == $y->rank) {
+        echo "class `$y->str` has properties:\n";
+        $pos = $php->pos;
+    }
+    if (T_VARIABLE == $y->tok && $php->pos == $pos)
+        echo "  " . implode(' ', $php->get_modifiers($y, 2)) . " $y->str\n";
+    if ($php->pos & PHP::_CLASS)
+        continue;
+    $pos = -1;
+}
+~
+PHP::ini_once();
+$x = Usage::extensions();
+#print_r($x);
+print_r(Usage::$classes);
+#print_r($x);
+#print_r($x);
+/*
+Array
+(
+    [stdclass] => Core
+    [traversable] => Core
+    [iteratoraggregate] => Core
+    [iterator] => Core
+    [arrayaccess] => Core
+    [serializable] => Core
+... */
+~
+$php = PHP::file(DIR_S . '/w2/php.php');
 foreach ($php->rank() as $y) {
     if ($y->open)
         echo $y->str,
@@ -64,27 +95,23 @@ ini_set('highlight.keyword', '#292');
 
 print(Display::_php($s, '=*=*'));
 ~
-$a = ['default'=>'#b11', 'comment'=>'#68a', 'html'=>'', 'keyword'=>'#d11', 'string'=>'#aa3'];
-foreach ($a as $k => $v)
-    ini_set("highlight.$k", $v);
-
-$s = highlight_string('<?php
-class e {
-  private $e = "111";
-}', true);
-
-$s = strip_tags($s, '<span><br>');
-
-$search=['<br /></span>', '<br />', '<span style="color: ">']; $replace=["</span>\n", "\n", '']; 
-// $search=['<span style="color: ">'];  $replace=['']; 
-$s = str_replace($search, $replace, $s);
-$s = substr($s, 0, -8);$s = trim($s);
-
-$a = explode("\n", $s);
-$a[1] = tag($a[1], 'style="background:yellow"').$a[2];
-unset($a[2]);
-$s = implode("\n", $a);
-echo $s . "\n".strlen($s);
+PHP::ini_once();
+$x = Usage::extensions();
+#print_r($x);
+print_r(Usage::$classes);
+#print_r(Usage::$functions);
+#print_r(Usage::$constants);
+/*
+Array
+(
+    [stdclass] => Core
+    [traversable] => Core
+    [iteratoraggregate] => Core
+    [iterator] => Core
+    [arrayaccess] => Core
+    [serializable] => Core
+...
+*/
 ~
 $sql = <<<EOD
  ;;; select "qq;ww==========;;;============";

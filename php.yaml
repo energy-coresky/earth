@@ -1,0 +1,32 @@
+
+# Extend Main\Overview & Global-Reports DEV-tools with all known information
+
+# Coresky can run from:
+70400: # PHP_VERSION_ID 7.4
+  extensions:
+    Core: .
+
+80000: @csv( )
+  extensions:
+    Core:
+      function: fdiv preg_last_error_msg str_contains str_starts_with str_ends_with get_debug_type get_resource_id
+      class: Attribute UnhandledMatchError ValueError
+      interface: Stringable
+      const: FILTER_VALIDATE_BOOL
+    tokenizer:
+      class: PhpToken
+
+80200:
+  extensions:
+    Core:
+      function:
+      class:
+
+80300: @csv( ) # PHP_VERSION_ID 8.3
+  extensions:
+    Core:
+      function: json_validate mb_str_pad stream_context_set_options str_increment str_decrement ldap_exop_sync ldap_connect_wallet
+      class: DateError DateException DateInvalidOperationException DateInvalidTimeZoneException DateMalformedIntervalStringException
+        DateMalformedPeriodStringException DateMalformedStringException DateObjectError DateRangeError Override SQLite3Exception
+
+# 2do
