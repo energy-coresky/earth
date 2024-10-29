@@ -1,16 +1,22 @@
 last_sand php
-last_docs 14
-last_func 17
+last_docs 6
+last_func 1
 width 100
 last_link _earth?parse=php
 sand_esc 1
 last_merc 10
 last_zml 
 zml_file var/hole.sky
-php_file z.php
+php_file ../air/w2/php.php
 yml_file main/config.yaml
 js_file ../air/assets/sky.js
 css_file ../air/assets/sky.css
 xml_file ../air/etc/highlight_jet/npp/jet.xml
 last_parse php
-last_php_m code
+last_php_m beautifier
+history_php a:4:{s:17:"../air/w2/php.php";s:17:"../air/w2/php.php";s:6:"zz.php";s:6:"zz.php";s:5:"z.php";s:5:"z.php";s:14:"../air/sky.php";s:14:"../air/sky.php";}
+history_zml a:1:{s:12:"var/hole.sky";s:12:"var/hole.sky";}
+history_js a:1:{s:20:"../air/assets/sky.js";s:20:"../air/assets/sky.js";}
+history_yml a:1:{s:16:"main/config.yaml";s:16:"main/config.yaml";}
+history_css a:1:{s:21:"../air/assets/sky.css";s:21:"../air/assets/sky.css";}
+history_xml a:1:{s:36:"../air/etc/highlight_jet/npp/jet.xml";s:36:"../air/etc/highlight_jet/npp/jet.xml";}

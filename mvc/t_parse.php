@@ -25,7 +25,11 @@ class t_parse extends Model_t
         SKY::w($this->_2 . '_file', $fn);
         if (!is_file($fn))
             return $this->dev->error("File `$fn` not found");
-        return $this->{$this->_2}($_POST['fn'], $_POST['m']);
+        $history = Vendor::history($this->_2, $fn);
+        json([
+            'html' => $this->{$this->_2}($_POST['fn'], $_POST['m']),
+            'history' => view('parse.hist', ['ary' => $history]),
+        ]);
     }
 
     function php_code($php) {
@@ -33,6 +37,7 @@ class t_parse extends Model_t
         $str = function ($y) use (&$tok, $php) {
             static $i = 0;
             for ($out = ''; strlen($out) < strlen($y->str); $i++)
+            //for ($out = ''; strlen(preg_replace("/\s+/s", '', $out)) < strlen($y->str); $i++)
                 $out .= is_array($tok[$i]) ? $tok[$i][1] : $tok[$i];
             yield html($out);
             if ($i < $y->lst) {
@@ -57,22 +62,27 @@ class t_parse extends Model_t
                 'CLASS' != $y->rank or $pos = $php->pos;
             } else {
                 if (T_VARIABLE == $y->tok && $php->pos == $pos)
-                    $html = tag($html, 'title="' . '' . '"', 'r');
+                    $html = tag($html, '', 'r');
                 $out .= $html;
                 $php->pos == PHP::_CLASS or $pos = -1;
             }
         }
-        echo pre($out);
+        Display::scheme('z_php');
+        $x = Display::xdata('');
+        $x->len = 0;
+        return Display::table(explode("\n", $out), $x, false);
     }
 
     function php($fn, $m) {
         $m && SKY::w('last_php_m', $m);
         $m or $m = SKY::w('last_php_m');
-        $php = PHP::file($fn, 'minifier' == $m ? 0 : 4);
-        if ($php->parse_error)
-            throw new Error($php->parse_error);
-        if ('minifier' == $m || 'beautifier' == $m)
-            return print pre(html($php));
+        $tidy = 'beautifier' == $m;
+        $php = PHP::file($fn, $tidy ? 4 : 0);
+        if (PHP::$warning)
+            throw new Error(PHP::$warning);
+        if ($tidy || 'minifier' == $m)
+            return Display::php($php);
+//.pre(html(var_export($php->stack, true) . var_export($php->x, true)));
         if ('code' == $m)
             return $this->php_code($php);
         $out = '';
@@ -82,7 +92,7 @@ class t_parse extends Model_t
                 if ($y->is_def) {
                     $real = in_array($y->rank, ['NAMESPACE', 'CLASS-CONST', 'METHOD']) ? $y->str : $ns . $y->str;
                 } else {
-                    $real = in_array($y->rank, [T_VAR, T_FN], true) ? $y->str : ($y->rank ? $php->get_real($y) : '');
+                    $real = in_array($y->rank, [T_VAR, T_FN, T_LIST], true) ? $y->str : ($y->rank ? $php->get_real($y) : '');
                 }
                 $s = "$php->pos.$php->curly $prev $y->line " . token_name($y->tok) . " $real";
                 $s .= " ------------------- " . (is_int($y->rank) ? strtolower(token_name($y->rank)) : $y->rank);
@@ -94,28 +104,33 @@ class t_parse extends Model_t
         $out = var_export($php->head, true) .
             //var_export($php->_tokens_def, true) . 
             $out;
-        echo pre(html($out));
+        return pre(html($out));
     }
 
     function js($fn) {
-        echo 1;
+        return '2do';
     }
 
     function css($fn) {
+        return Display::css(file_get_contents($fn));
     }
 
     function xml($fn) {
+        return Display::html(file_get_contents($fn));
     }
 
     function yml($fn) {
+        return Display::yaml(file_get_contents($fn));
     }
 
     function zml($fn) {
         $zml = new ZML($fn);
-        echo Debug::out($zml->bang);
+        ob_start();
+        Debug::out($zml->bang);
         $ary = [];
         foreach ($zml->read() as $pos => $y)
             $ary[$pos] = trim($y->line);
-        echo Debug::out($ary);
+        Debug::out($ary);
+        return ob_get_clean();
     }
 }

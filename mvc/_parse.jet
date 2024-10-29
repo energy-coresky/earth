@@ -1,23 +1,62 @@
 #.jet core
 
-#.layout //////////////////////////////////////////////////////////////////////////////
+#.layout //////////////////////////////////////////////////////////////////////////////<input type="checkbox"@checked($sky->w_sand_esc) title="Escape output">
 #use(_earth.menu as menu)
 #use(.parse_m)
 <div class="bg-wx bg-x" style="position:sticky; top:0px">
     <div class="fs16" onclick="sky.d.panel(0)" style="line-height:37px">Filename:</div>
     &nbsp; <input name="fn" value="{{$sky->{"w_{$sky->_2}_file"} ?: $default}}">
-    &nbsp; <button class="Esc" onclick="sky.d.{{$sky->_2}}()">Scan</button>
+    &nbsp; <button class="Esc" onclick="sky.d.{{$sky->_2}}(sky.d.php_c)" class="f9">scan - F9</button>
     &nbsp; &nbsp; @block(`` as right)
+    <div style="width:260px" onmouseenter="$(this).next().show()">
+        history
+    </div><div id="parser-hist" onmouseleave="$(this).hide()"></div>
 </div>
-<div id="body" style="padding:10px 0 0 10px"></div>
+<div id="body" style="padding:0px 0 0 0px"></div>
 <script>
 sky.d.{{$sky->_2}} = function(m) {
+    $('#sand-pre a').removeAttr('active');
+    $('a[x=' + m + ']').attr('active', 1);
+    sky.d.php_c = m;
     ajax('parse&{{$sky->_2}}', {fn: $('input[name=fn]').val(), m:m || ''}, function(r) {
-        $('#body').html(r);
+        $('#body').html(r.html);
+        $('#parser-hist').html(r.history);
     });
 };
-sky.d.{{$sky->_2}}();
+sky.d.php_c = '{{$sky->w_last_php_m}}';
+sky.d.{{$sky->_2}}(sky.d.php_c);
+sky.d.php_a = {code:'tokens', tokens:'minifier', minifier:'beautifier', beautifier:'code'};
+$(function() {
+    if (sky.a._1 == 'parse') {
+        sky.key[27] = function() { // Escape
+            sky.d.php_c = sky.d.php_a[sky.d.php_c];
+            sky.d.php(sky.d.php_c);
+        };
+        sky.key[120] = function() { // F9
+            sky.d.{{$sky->_2}}(sky.d.php_c);
+        };
+    }
+});
 </script>
+<style>
+#parser-hist a:hover {
+    background-color: #ddd;
+}
+#parser-hist a {
+    background-color: #eee;
+    font-size: 14px;
+    line-height: 20px;
+    display:block;
+    margin:0;
+    padding:0;
+}
+#parser-hist {
+    position: fixed;
+    right: 15px; top: 28px;
+    background-color: #eee;
+    padding: 10px 0;
+}
+</style>
 @inc(.jscss)
 #.layout
 
@@ -25,9 +64,9 @@ sky.d.{{$sky->_2}}();
 @inc(.layout)
 #use(.right)
 #.php.right
-Mode: <div id="sand-pre"> &nbsp;
+Mode: <div id="sand-pre" style="width:460px"> &nbsp;
 @loop($php_m as $v)
-    <a@active($v == $sky->w_last_php_m) @href(sky.d.php('{{$v}}'))>{{($_ < 2 ? 'rank ':'') . $v}}</a>
+    <a@active($v == $sky->w_last_php_m) @href(sky.d.php('{{$v}}')) x="{{$v}}">{{($_ < 2 ? 'rank ':'') . $v}}</a>
 ~loop
 </div>
 #.right
@@ -63,3 +102,11 @@ Mode: <div id="sand-pre"> &nbsp;
 #.jscss
 
 #.jscss
+
+#.hist
+@loop($ary as $fn)
+    <a @href($('input[name=fn]').val('{{$fn}}'); sky.d.{{$sky->_2}}(sky.d.php_c)) class="inner-menu">{{$fn}}</a>
+~loop
+#.hist
+
+
