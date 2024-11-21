@@ -2,6 +2,8 @@
 
 class t_parse extends Model_t
 {
+    use Processor;
+
     private $a = [
         'php' => DIR_S . '/sky.php',
         'js' => DIR_S . '/assets/sky.js',
@@ -9,25 +11,28 @@ class t_parse extends Model_t
         'xml' => DIR_S . '/etc/highlight_jet/npp/jet.xml',
         'yml' => 'main/config.yaml',
         'zml' => 'var/app.sky',
+        'proc' => DIR_S . '/w2/__dev.jet',
     ];
 
-    function def($i) {
-        MVC::body("parse.$this->_2");
-        $php_m = ['code', 'tokens', 'minifier', 'beautifier'];
+    function a($i) {
+        SKY::w('last_parse', $this->_2);
+        MVC::body("parse.body");
         return [
-            'php_m' => $php_m,
+            'submenu' => yml("+ @inc(.sub_$this->_2) mvc/_parse.jet"),
             'default' => $this->a[$i],
             'parse_m' => array_keys($this->a),
+            'w_sublast' => "w_last_{$this->_2}_m",
         ];
     }
 
-    function run($fn) {
+    function j($fn) {
         SKY::w($this->_2 . '_file', $fn);
         if (!is_file($fn))
             return $this->dev->error("File `$fn` not found");
         $history = Vendor::history($this->_2, $fn);
+        ($m = $_POST['m']) ? SKY::w("last_{$this->_2}_m", $m) : ($m = SKY::w("last_{$this->_2}_m"));
         json([
-            'html' => $this->{$this->_2}($_POST['fn'], $_POST['m']),
+            'html' => $this->{$this->_2}($_POST['fn'], $m),
             'history' => view('parse.hist', ['ary' => $history]),
         ]);
     }
@@ -37,7 +42,6 @@ class t_parse extends Model_t
         $str = function ($y) use (&$tok, $php) {
             static $i = 0;
             for ($out = ''; strlen($out) < strlen($y->str); $i++)
-            //for ($out = ''; strlen(preg_replace("/\s+/s", '', $out)) < strlen($y->str); $i++)
                 $out .= is_array($tok[$i]) ? $tok[$i][1] : $tok[$i];
             yield html($out);
             if ($i < $y->lst) {
@@ -74,15 +78,13 @@ class t_parse extends Model_t
     }
 
     function php($fn, $m) {
-        $m && SKY::w('last_php_m', $m);
-        $m or $m = SKY::w('last_php_m');
-        $tidy = 'beautifier' == $m;
-        $php = PHP::file($fn, $tidy ? 4 : 0);
+        $nice = 'beautifier' == $m;
+        $php = PHP::file($fn, $nice ? 4 : 0);
+//if ($nice) $php = new PHP($php);
         if (PHP::$warning)
             throw new Error(PHP::$warning);
-        if ($tidy || 'minifier' == $m)
+        if ($nice || 'minifier' == $m)
             return Display::php($php);
-//.pre(html(var_export($php->stack, true) . var_export($php->x, true)));
         if ('code' == $m)
             return $this->php_code($php);
         $out = '';
@@ -107,23 +109,31 @@ class t_parse extends Model_t
         return pre(html($out));
     }
 
-    function js($fn) {
+    function proc($fn, $m) {
+        $out = unl(file_get_contents($fn));
+        Display::scheme('z_php');
+        $x = Display::xdata('');
+        $x->len = 0;
+        return Display::table(explode("\n", html($out)), $x, false);
+    }
+
+    function js($fn, $m) {
         return '2do';
     }
 
-    function css($fn) {
+    function css($fn, $m) {
         return Display::css(file_get_contents($fn));
     }
 
-    function xml($fn) {
+    function xml($fn, $m) {
         return Display::html(file_get_contents($fn));
     }
 
-    function yml($fn) {
+    function yml($fn, $m) {
         return Display::yaml(file_get_contents($fn));
     }
 
-    function zml($fn) {
+    function zml($fn, $m) {
         $zml = new ZML($fn);
         ob_start();
         Debug::out($zml->bang);

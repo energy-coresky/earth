@@ -8,3 +8,5 @@ core:
   databases:
     driver: sqlite3
     dsn: $SELF/earth.base
+# run when push
+# sky sql "vacuum" core earth

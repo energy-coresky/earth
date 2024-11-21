@@ -1,3 +1,9 @@
+//ini_set('memory_limit', '128M'); # unlim -1
+$x = memory_get_peak_usage();
+$m = (int)ini_get('memory_limit') * 1024 * 1024;
+echo $x, ' ', $m, ' ', ini_get('memory_limit')
+     ,' ', round($x * 100 / $m,2).'%';
+~
 declare(ticks=1);
 
 function tick_handler()

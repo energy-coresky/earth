@@ -1,39 +1,77 @@
 #.jet core
 
-#.layout //////////////////////////////////////////////////////////////////////////////<input type="checkbox"@checked($sky->w_sand_esc) title="Escape output">
+#.layout //////////////////////////////////////////////////////////////////////////////
 #use(_earth.menu as menu)
 #use(.parse_m)
 <div class="bg-wx bg-x" style="position:sticky; top:0px">
     <div class="fs16" onclick="sky.d.panel(0)" style="line-height:37px">Filename:</div>
     &nbsp; <input name="fn" value="{{$sky->{"w_{$sky->_2}_file"} ?: $default}}">
-    &nbsp; <button class="Esc" onclick="sky.d.{{$sky->_2}}(sky.d.php_c)" class="f9">scan - F9</button>
+    &nbsp; <button class="Esc" onclick="sky.d.parse(sky.d.cur)" class="f9">scan - F9</button>
     &nbsp; &nbsp; @block(`` as right)
     <div style="width:260px" onmouseenter="$(this).next().show()">
         history
     </div><div id="parser-hist" onmouseleave="$(this).hide()"></div>
 </div>
 <div id="body" style="padding:0px 0 0 0px"></div>
+@inc(.jscss)
+#.layout.body
+@inc(.layout)
+#use(.right)
+#.body
+
+#.right //////////////////////////////////////////////////////////////////////////////
+Mode: <div id="sand-pre" style="width:460px"> &nbsp;
+@loop($submenu as $v => $next)
+    <a@active($v == $sky->$w_sublast) @href(sky.d.parse('{{$v}}')) x="{{$v}}">{{($_ < 2 ? 'rank ':'') . $v}}</a>
+~loop
+</div>
+#.right.sub_php.sub_js
+code: tokens
+tokens: minifier
+#.sub_css.sub_xml.sub_yml
+minifier: beautifier
+beautifier: code
+#.sub_php.sub_js.sub_css.sub_xml.sub_yml.sub_zml
++ {testx: testz, testz: testx}
+#.sub_zml.sub_proc
+test1: test2
+test2: test1
+#.sub_proc
+
+#.parse_m
+@loop($parse_m as $v)
+    <a href="_earth?parse={{$v}}" class="inner-menu"@active($v == $sky->_2)>
+        @if('proc' == $v)
+            Processor
+        @else
+            Parse {{'js' == $v ? 'Javascript' : strtoupper($v)}}
+        ~if
+    </a>
+~loop
+#.parse_m
+
+#.jscss
 <script>
-sky.d.{{$sky->_2}} = function(m) {
+sky.d.parse = function(m) {
     $('#sand-pre a').removeAttr('active');
     $('a[x=' + m + ']').attr('active', 1);
-    sky.d.php_c = m;
+    sky.d.cur = m;
     ajax('parse&{{$sky->_2}}', {fn: $('input[name=fn]').val(), m:m || ''}, function(r) {
         $('#body').html(r.html);
         $('#parser-hist').html(r.history);
     });
 };
-sky.d.php_c = '{{$sky->w_last_php_m}}';
-sky.d.{{$sky->_2}}(sky.d.php_c);
-sky.d.php_a = {code:'tokens', tokens:'minifier', minifier:'beautifier', beautifier:'code'};
+sky.d.cur = '{{$sky->$w_sublast}}';
+sky.d.parse(sky.d.cur);
+sky.d.follow = {!json_encode($submenu)!};
 $(function() {
     if (sky.a._1 == 'parse') {
         sky.key[27] = function() { // Escape
-            sky.d.php_c = sky.d.php_a[sky.d.php_c];
-            sky.d.php(sky.d.php_c);
+            sky.d.cur = sky.d.follow[sky.d.cur];
+            sky.d.parse(sky.d.cur);
         };
         sky.key[120] = function() { // F9
-            sky.d.{{$sky->_2}}(sky.d.php_c);
+            sky.d.parse(sky.d.cur);
         };
     }
 });
@@ -57,55 +95,11 @@ $(function() {
     padding: 10px 0;
 }
 </style>
-@inc(.jscss)
-#.layout
-
-#.php //////////////////////////////////////////////////////////////////////////////{!$list!}
-@inc(.layout)
-#use(.right)
-#.php.right
-Mode: <div id="sand-pre" style="width:460px"> &nbsp;
-@loop($php_m as $v)
-    <a@active($v == $sky->w_last_php_m) @href(sky.d.php('{{$v}}')) x="{{$v}}">{{($_ < 2 ? 'rank ':'') . $v}}</a>
-~loop
-</div>
-#.right
-
-#.js
-@inc(.layout)
-#.js
-
-#.css
-@inc(.layout)
-#.css
-
-#.xml
-@inc(.layout)
-#.xml
-
-#.yml
-@inc(.layout)
-#.yml
-
-#.zml
-@inc(.layout)
-#.zml
-
-#.parse_m
-@loop($parse_m as $v)
-    <a href="_earth?parse={{$v}}" class="inner-menu"@active($v == $sky->_2)>Parse
-        {{'js' == $v ? 'Javascript' : strtoupper($v)}}
-    </a>
-~loop
-#.parse_m
-
-#.jscss
-
 #.jscss
 
 #.hist
 @loop($ary as $fn)
-    <a @href($('input[name=fn]').val('{{$fn}}'); sky.d.{{$sky->_2}}(sky.d.php_c)) class="inner-menu">{{$fn}}</a>
+    <a @href($('input[name=fn]').val('{{$fn}}'); sky.d.parse(sky.d.cur)) class="inner-menu">{{$fn}}</a>
 ~loop
 #.hist
 
