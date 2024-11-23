@@ -110,11 +110,20 @@ class t_parse extends Model_t
     }
 
     function proc($fn, $m) {
-        $out = unl(file_get_contents($fn));
+        $this->wn_input = unl(file_get_contents($fn));
+        $out = '';
+        $i = 0;
+        foreach ($this->tokens() as $t => $y) {
+            'test1' == $m and $out .= $t . $y->bracket;
+            'test2' == $m and $out .= "$i => $y->typ => '$t$y->bracket'\n";
+            $i++;
+        }
+        $out .= "\n\ntok: $i";
         Display::scheme('z_php');
         $x = Display::xdata('');
         $x->len = 0;
-        return Display::table(explode("\n", html($out)), $x, false);
+        return pre(html($out));
+        //return Display::table(explode("\n", html($out)), $x, false);
     }
 
     function js($fn, $m) {
