@@ -22,12 +22,13 @@
 #.right //////////////////////////////////////////////////////////////////////////////
 Mode: <div id="sand-pre" style="width:460px"> &nbsp;
 @loop($submenu as $v => $next)
-    <a@active($v == $sky->$w_sublast) @href(sky.d.parse('{{$v}}')) x="{{$v}}">{{($_ < 2 ? 'rank ':'') . $v}}</a>
+    <a@active($v == $sky->$w_sublast) @href(sky.d.parse('{{$v}}')) x="{{$v}}">{{$v}}</a>
 ~loop
 </div>
 #.right.sub_php.sub_js
-code: tokens
-tokens: minifier
+code: rank
+rank: nice
+nice: minifier
 #.sub_css.sub_xml.sub_yml
 minifier: beautifier
 beautifier: code

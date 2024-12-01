@@ -63,7 +63,7 @@ class Gape extends Bolt {}';
 
 foreach (token_get_all($php, TOKEN_PARSE) as $v) {
   [$k, $v] = is_array($v) ? $v : [0, $v];
-  echo token_name($k)." --> '$v'\n";
+  echo ($k ? token_name($k) : '  ')." --> '$v'\n";
 }
 ~
 $ary = SKY::$dd->_struct('ctry');

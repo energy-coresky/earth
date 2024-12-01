@@ -2,7 +2,7 @@
 
 class t_parse extends Model_t
 {
-    use Processor;
+    use Saw;
 
     private $a = [
         'php' => DIR_S . '/sky.php',
@@ -37,46 +37,6 @@ class t_parse extends Model_t
         ]);
     }
 
-    function php_code($php) {
-        $tok = $php->tok;
-        $str = function ($y) use (&$tok, $php) {
-            static $i = 0;
-            for ($out = ''; strlen($out) < strlen($y->str); $i++)
-                $out .= is_array($tok[$i]) ? $tok[$i][1] : $tok[$i];
-            yield html($out);
-            if ($i < $y->lst) {
-                $y->rank = false;
-                for ($out = ''; $i < $y->lst; $i++) {
-                    [$t, $s] = is_array($tok[$i]) ? $tok[$i] : [0, $tok[$i]];
-                    $gray = in_array($t, [T_COMMENT, T_DOC_COMMENT, T_INLINE_HTML]);
-                    $out .= $gray ? tag(html($s), '', 'y') : html($s);
-                }
-                yield $out;
-            }
-        };
-        $use = fn($y) => in_array($y->rank, [T_CONST, T_CLASS, T_FUNCTION]);
-        $out = '';
-        $pos = -1;
-        foreach ($php->rank() as $prev => $y) {
-            $y->lst = $y->new ? $y->new->i : count($tok);
-            foreach ($str($y) as $html) if ($y->rank) {
-                $title = $php->get_real($y);
-                $color = $y->is_def ? 'r' : ($use($y) ? 'z' : (T_LIST == $y->rank ? 'm' : 'g'));
-                $out .= tag($html, 'title="' . $title . '"', $color);
-                'CLASS' != $y->rank or $pos = $php->pos;
-            } else {
-                if (T_VARIABLE == $y->tok && $php->pos == $pos)
-                    $html = tag($html, '', 'r');
-                $out .= $html;
-                $php->pos == PHP::_CLASS or $pos = -1;
-            }
-        }
-        Display::scheme('z_php');
-        $x = Display::xdata('');
-        $x->len = 0;
-        return Display::table(explode("\n", $out), $x, false);
-    }
-
     function php($fn, $m) {
         $nice = 'beautifier' == $m;
         $php = PHP::file($fn, $nice ? 4 : 0);
@@ -86,44 +46,27 @@ class t_parse extends Model_t
         if ($nice || 'minifier' == $m)
             return Display::php($php);
         if ('code' == $m)
-            return $this->php_code($php);
-        $out = '';
-        foreach ($php->rank() as $prev => $y) {
-            $ns = '' === $php->ns ? '' : "$php->ns\\";
-            if (T_STRING == $y->tok) {
-                if ($y->is_def) {
-                    $real = in_array($y->rank, ['NAMESPACE', 'CLASS-CONST', 'METHOD']) ? $y->str : $ns . $y->str;
-                } else {
-                    $real = in_array($y->rank, [T_VAR, T_FN, T_LIST], true) ? $y->str : ($y->rank ? $php->get_real($y) : '');
-                }
-                $s = "$php->pos.$php->curly $prev $y->line " . token_name($y->tok) . " $real";
-                $s .= " ------------------- " . (is_int($y->rank) ? strtolower(token_name($y->rank)) : $y->rank);
-                if ($y->open)
-                    $s .= $php->str($y->open, $php->get_close($y));
-                $out .= "===================== \n$s\n";
-            } #else { $out .= $php->curly . " == $y->str\n"; }
-        }
-        $out = var_export($php->head, true) .
-            //var_export($php->_tokens_def, true) . 
-            $out;
-        return pre(html($out));
+            return $this->t_token->php_code($php);
+        return $this->t_token->token($php, 'nice' == $m);
     }
 
     function proc($fn, $m) {
         $this->wn_input = unl(file_get_contents($fn));
-        $out = '';
+        $test2 = 'test2' == $m;
+        $out = $test2 ? th(['#', '->typ', 'Token', '->bracket'], 'width="99%"') : '';
         $i = 0;
         foreach ($this->tokens() as $t => $y) {
-            'test1' == $m and $out .= $t . $y->bracket;
-            'test2' == $m and $out .= "$i => $y->typ => '$t$y->bracket'\n";
-            $i++;
+            $tr = in_array($y->typ, [0, 9])
+                ? 'style="background:#fdf"'
+                : (1 == $y->typ ? 'style="background:#dfd"' : (7 != $y->typ ? 'style="background:#eee"' : ''));
+            $out .= $test2 ? td([
+                ++$i,
+                "$y->typ - " . $this->wn_tokens[$y->typ],
+                pre(html(var_export($t, true))),
+                [pre(html(var_export($y->bracket, true))), 'width="25%"'],
+            ], $tr) : $t . $y->bracket;
         }
-        $out .= "\n\ntok: $i";
-        Display::scheme('z_php');
-        $x = Display::xdata('');
-        $x->len = 0;
-        return pre(html($out));
-        //return Display::table(explode("\n", html($out)), $x, false);
+        return $test2 ? "$out</table>" : pre(html($out));
     }
 
     function js($fn, $m) {

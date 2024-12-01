@@ -1,5 +1,5 @@
 last_sand php
-last_docs 14
+last_docs 3
 last_func 1
 width 100
 last_link _earth?parse=php
@@ -7,24 +7,24 @@ sand_esc 1
 last_merc 10
 last_zml 
 zml_file var/hole.sky
-php_file ../air/w2/debug.php
+php_file var/cache/saw_main_php.php
 yml_file main/config.yaml
 js_file ../air/assets/sky.js
 css_file ../air/assets/sky.css
 xml_file ../air/etc/highlight_jet/npp/jet.xml
 last_parse php
-last_php_m code
-history_php a:27:{s:19:"../air/w2/debug.php";s:19:"../air/w2/debug.php";s:17:"../air/w2/jet.php";s:17:"../air/w2/jet.php";s:18:"../air/w2/gate.php";s:18:"../air/w2/gate.php";s:17:"../air/w2/yml.php";s:17:"../air/w2/yml.php";s:21:"../air/w2/globals.php";s:21:"../air/w2/globals.php";s:18:"../air/w2/user.php";s:18:"../air/w2/user.php";s:17:"../air/w2/dev.php";s:17:"../air/w2/dev.php";s:8:"gate.php";s:8:"gate.php";s:22:"var/cache/sky_plan.php";s:22:"var/cache/sky_plan.php";s:22:"../air/w2/language.php";s:22:"../air/w2/language.php";s:18:"../air/w2/form.php";s:18:"../air/w2/form.php";s:18:"../air/w2/boot.php";s:18:"../air/w2/boot.php";s:17:"../air/w2/mvc.php";s:17:"../air/w2/mvc.php";s:18:"../air/w2/core.php";s:18:"../air/w2/core.php";s:18:"../air/w2/plan.php";s:18:"../air/w2/plan.php";s:23:"../air/w2/processor.php";s:23:"../air/w2/processor.php";s:19:"../air/w2/dev_c.php";s:19:"../air/w2/dev_c.php";s:21:"../air/w2/console.php";s:21:"../air/w2/console.php";s:14:"../air/sky.php";s:14:"../air/sky.php";s:32:"var/cache/wind_main_nice_php.php";s:32:"var/cache/wind_main_nice_php.php";s:7:"xsp.php";s:7:"xsp.php";s:31:"var/cache/yml_main_nice_php.php";s:31:"var/cache/yml_main_nice_php.php";s:20:"../air/w2/vendor.php";s:20:"../air/w2/vendor.php";s:26:"var/cache/yml_main_php.php";s:26:"var/cache/yml_main_php.php";s:17:"../air/w2/php.php";s:17:"../air/w2/php.php";s:7:"z-e.php";s:7:"z-e.php";s:9:"z_php.php";s:9:"z_php.php";}
+last_php_m beautifier
+history_php a:27:{s:26:"var/cache/saw_main_php.php";s:26:"var/cache/saw_main_php.php";s:26:"var/cache/yml_main_php.php";s:26:"var/cache/yml_main_php.php";s:22:"../air/w2/language.php";s:22:"../air/w2/language.php";s:8:"gate.php";s:8:"gate.php";s:17:"../air/w2/zml.php";s:17:"../air/w2/zml.php";s:13:"main/cron.php";s:13:"main/cron.php";s:18:"../air/w2/form.php";s:18:"../air/w2/form.php";s:19:"../air/w2/dev_c.php";s:19:"../air/w2/dev_c.php";s:18:"../air/w2/core.php";s:18:"../air/w2/core.php";s:19:"../air/w2/debug.php";s:19:"../air/w2/debug.php";s:5:"z.php";s:5:"z.php";s:21:"../air/w2/display.php";s:21:"../air/w2/display.php";s:17:"../air/w2/php.php";s:17:"../air/w2/php.php";s:7:"xsp.php";s:7:"xsp.php";s:21:"../air/w2/globals.php";s:21:"../air/w2/globals.php";s:23:"../air/w2/dd_mysqli.php";s:23:"../air/w2/dd_mysqli.php";s:20:"../air/w2/vendor.php";s:20:"../air/w2/vendor.php";s:17:"../air/w2/dev.php";s:17:"../air/w2/dev.php";s:18:"../air/w2/user.php";s:18:"../air/w2/user.php";s:17:"../air/w2/mvc.php";s:17:"../air/w2/mvc.php";s:18:"../air/w2/plan.php";s:18:"../air/w2/plan.php";s:12:"x_object.php";s:12:"x_object.php";s:21:"../air/w2/console.php";s:21:"../air/w2/console.php";s:31:"var/cache/saw_main_nice_php.php";s:31:"var/cache/saw_main_nice_php.php";s:31:"var/cache/yml_main_nice_php.php";s:31:"var/cache/yml_main_nice_php.php";s:32:"var/cache/wind_main_nice_php.php";s:32:"var/cache/wind_main_nice_php.php";s:23:"../air/w2/processor.php";s:23:"../air/w2/processor.php";}
 history_zml a:1:{s:12:"var/hole.sky";s:12:"var/hole.sky";}
 history_js a:1:{s:20:"../air/assets/sky.js";s:20:"../air/assets/sky.js";}
 history_yml a:1:{s:16:"main/config.yaml";s:16:"main/config.yaml";}
 history_css a:1:{s:21:"../air/assets/sky.css";s:21:"../air/assets/sky.css";}
 history_xml a:1:{s:36:"../air/etc/highlight_jet/npp/jet.xml";s:36:"../air/etc/highlight_jet/npp/jet.xml";}
-proc_file ../air/w2/__beauty.yaml
-history_proc a:7:{s:23:"../air/w2/__beauty.yaml";s:23:"../air/w2/__beauty.yaml";s:21:"../air/w2/__data.yaml";s:21:"../air/w2/__data.yaml";s:3:"z.y";s:3:"z.y";s:21:"../air/w2/globals.php";s:21:"../air/w2/globals.php";s:18:"../air/w2/gate.php";s:18:"../air/w2/gate.php";s:20:"../air/w2/__vend.jet";s:20:"../air/w2/__vend.jet";s:19:"../air/w2/__dev.jet";s:19:"../air/w2/__dev.jet";}
+proc_file z.y
+history_proc a:7:{s:3:"z.y";s:3:"z.y";s:21:"../air/w2/__data.yaml";s:21:"../air/w2/__data.yaml";s:23:"../air/w2/__beauty.yaml";s:23:"../air/w2/__beauty.yaml";s:18:"../air/w2/gate.php";s:18:"../air/w2/gate.php";s:21:"../air/w2/globals.php";s:21:"../air/w2/globals.php";s:20:"../air/w2/__vend.jet";s:20:"../air/w2/__vend.jet";s:19:"../air/w2/__dev.jet";s:19:"../air/w2/__dev.jet";}
 last_js_m code
 last_css_m beautifier
 last_xml_m minifier
-last_yml_m beautifier
+last_yml_m minifier
 last_zml_m testx
 last_proc_m test2
