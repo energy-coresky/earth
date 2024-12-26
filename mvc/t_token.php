@@ -42,8 +42,12 @@ class t_token extends Model_t
     function token_nice($php) {
         $out = th(['# / Line / ->i', 'Prev', 'Token', '->len',  '->cnt', '->reason', '->close'], 'width="99%"');
         $i = 0;
-        $cnt = function ($ary) use ($php) {
+        $cnt = function ($ary, &$len2) use ($php) {
             $s = isset($ary[0]) ? "," . array_shift($ary) : '';
+            if (isset($ary[-1])) {
+                $len2 = ", ($ary[-1])";
+                unset($ary[-1]);
+            }
             if (!$ary)
                 return $s;
             foreach ($ary as $k => $v)
@@ -55,17 +59,50 @@ class t_token extends Model_t
                 continue;
             $tok = $y->tok ? token_name($y->tok) : ('{' == $y->str ? 'curly_open' : $y->str);
             $color = $y->close > 1 ? 'eee' : 'ff9';
+            $len2 = '';
+            $chars = $y->cnt ? $cnt($y->cnt, $len2) : '.';
             $out .= td([
                 ++$i . ' . ' . ($y->line ?: $php->char_line($y->i)) . " . $y->i",
                 html($prev),
                 [$tok, 'style="background:#' . $color . ';font-family:monospace;text-align:center"'],
-                $y->len,
-                $y->cnt ? $cnt($y->cnt) : '.',
+                $y->len . $len2,
+                $chars,
                 $y->reason ? token_name($y->reason) : '.',
                 $y->close ?: '.',
             ]);
         }
         return "$out</table>Tokens total: $php->count";
+    }
+
+    function token_md($str) {
+        $md = new MD($str);
+        $out = th(['#', 'tok', 'NLstart', 'Value'], 'width="99%"');
+        $i = 0;
+        foreach ($md->tokens() as $t => $y) {
+            $out .= td([
+                ++$i . '.',
+                $y->tok,
+                "\n" == $t[0] || '' === trim($t) ? strtr($t, " \r\n\t", 'srnt') : '',
+                tag(strtr(html($t), [' ' => '&nbsp;']), '', 'code'),
+            ]);
+        }
+        return $out;
+    }
+
+    function token_js($str) {
+        $js = new JS($str);
+        $tok = fn($tok) => $tok < 1000 ? token_name($tok) : 'T_KEYWORD';
+        $out = th(['# / Line / ->i', '->pv', '->tok', 'Value'], 'width="99%"');
+        $i = 0;
+        foreach ($js->tokens() as $t => $y) {
+            $out .= td([
+                ++$i . '.',
+                html($y->pv),
+                $y->tok ? $tok($y->tok) : '',
+                T_WHITESPACE == $y->tok ? var_export($t, true) : html($t),
+            ]);
+        }
+        return $out;
     }
 
     function php_code($php) {
@@ -102,9 +139,6 @@ class t_token extends Model_t
                 $php->pos == PHP::_CLASS or $pos = -1;
             }
         }
-        Display::scheme('z_php');
-        $x = Display::xdata('');
-        $x->len = 0;
-        return Display::table(explode("\n", $out), $x, false);
+        return Display::lines($out);
     }
 }

@@ -135,6 +135,11 @@ class earth_c extends Controller
         return $this->t_parse->a($this->_2);
     }
 
+    function j_repo() {
+        SKY::w('repo', $_POST['d']);
+        return true;
+    }
+
     function j_parse() {
         return $this->t_parse->j($_POST['fn']);
     }

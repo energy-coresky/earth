@@ -24,28 +24,39 @@ Mode: <div id="sand-pre" style="width:460px"> &nbsp;
 @loop($submenu as $v => $next)
     <a@active($v == $sky->$w_sublast) @href(sky.d.parse('{{$v}}')) x="{{$v}}">{{$v}}</a>
 ~loop
+<label><input@checked($sky->w_as_html) onchange="sky.d.parse(sky.d.cur, this.checked)" type="checkbox" name="html"> as HTML</label>
 </div>
-#.right.sub_php.sub_js
+#.right.sub_php
 code: rank
 rank: nice
 nice: minifier
 #.sub_css.sub_xml.sub_yml
 minifier: beautifier
 beautifier: code
-#.sub_php.sub_js.sub_css.sub_xml.sub_yml.sub_zml
+#.sub_php.sub_css.sub_xml.sub_yml.sub_zml
 + {testx: testz, testz: testx}
-#.sub_zml.sub_proc
+#.sub_zml.sub_saw
 test1: test2
 test2: test1
-#.sub_proc
+#.sub_saw.sub_diff
+0color: 1color
+1color: 2color
+2color: 0color
+git: 1color
+#.sub_diff.sub_md
+tok: hightlight
+hightlight: html
+html: tok
+#.sub_js.sub_md
+tok: hightlight
+hightlight: tok
+#.sub_js
 
 #.parse_m
 @loop($parse_m as $v)
     <a href="_earth?parse={{$v}}" class="inner-menu"@active($v == $sky->_2)>
-        @if('proc' == $v)
-            Processor
-        @else
-            Parse {{'js' == $v ? 'Javascript' : strtoupper($v)}}
+        @if('diff'==$v)Text DIFF@else
+            Parser {{'js' == $v ? 'Javascript' : ('md' == $v ? 'Markdown' : strtoupper($v))}}
         ~if
     </a>
 ~loop
@@ -53,11 +64,13 @@ test2: test1
 
 #.jscss
 <script>
-sky.d.parse = function(m) {
+sky.d.parse = function(m, as_html) {
     $('#sand-pre a').removeAttr('active');
     $('a[x=' + m + ']').attr('active', 1);
     sky.d.cur = m;
-    ajax('parse&{{$sky->_2}}', {fn: $('input[name=fn]').val(), m:m || ''}, function(r) {
+    $('#sand-pre label').css('display', 'html' == m ? '' : 'none');
+    let a = true === as_html ? 2 : (false === as_html ? 1 : 0);
+    ajax('parse&{{$sky->_2}}', {fn: $('input[name=fn]').val(), m:m || '', a:a}, function(r) {
         $('#body').html(r.html);
         $('#parser-hist').html(r.history);
     });
@@ -76,8 +89,15 @@ $(function() {
         };
     }
 });
+sky.d.diff = function(v) {
+    $('input[name=fn]').val(v);
+    sky.d.parse('2color');
+};
 </script>
 <style>
+#sand-pre input {
+    margin: 5px 0 0 35px;
+}
 #parser-hist a:hover {
     background-color: #ddd;
 }
@@ -104,4 +124,21 @@ $(function() {
 ~loop
 #.hist
 
+#.git
+<div style="margin:2px 0 0 8px;">
+Repositories: <select onchange="ajax('repo',{d:this.value},() => {sky.d.parse('git')})">{!$repos!}</select>
+</div>
+{!$table!}
+#.git
+
+#.diff
+<div style="width:calc(100vw - 240px);display:flex;">
+<div style="width:50%;overflow:hidden;">
+    {!$old!}
+</div>
+<div style="width:50%;overflow:hidden;">
+    {!$new!}
+</div>
+</div>
+#.diff
 

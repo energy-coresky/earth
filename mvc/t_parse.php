@@ -11,7 +11,9 @@ class t_parse extends Model_t
         'xml' => DIR_S . '/etc/highlight_jet/npp/jet.xml',
         'yml' => 'main/config.yaml',
         'zml' => 'var/app.sky',
-        'proc' => DIR_S . '/w2/__dev.jet',
+        'saw' => DIR_S . '/w2/__dev.jet',
+        'md' => 'README.md',
+        'diff' => DIR_S . '/w2/__dev.jet',
     ];
 
     function a($i) {
@@ -27,10 +29,13 @@ class t_parse extends Model_t
 
     function j($fn) {
         SKY::w($this->_2 . '_file', $fn);
-        if (!is_file($fn))
-            return $this->dev->error("File `$fn` not found");
-        $history = Vendor::history($this->_2, $fn);
+        $_fn = ($pos = strpos($fn, ':')) ? substr($fn, $pos + 1) : $fn;
         ($m = $_POST['m']) ? SKY::w("last_{$this->_2}_m", $m) : ($m = SKY::w("last_{$this->_2}_m"));
+#        if ('git' != $m && !is_file(SKY::w('repo') . "/$_fn"))
+#            return $this->dev->error("File `$fn` not found");
+        $history = Vendor::history($this->_2, $fn);
+        if ($_POST['a'])
+            SKY::w('as_html', $_POST['a'] - 1);
         json([
             'html' => $this->{$this->_2}($_POST['fn'], $m),
             'history' => view('parse.hist', ['ary' => $history]),
@@ -43,14 +48,16 @@ class t_parse extends Model_t
 //if ($nice) $php = new PHP($php);
         if (PHP::$warning)
             throw new Error(PHP::$warning);
-        if ($nice || 'minifier' == $m)
+        if ($nice)
             return Display::php($php);
+        if ('minifier' == $m)
+            return html($php);
         if ('code' == $m)
             return $this->t_token->php_code($php);
         return $this->t_token->token($php, 'nice' == $m);
     }
 
-    function proc($fn, $m) {
+    function saw($fn, $m) {
         $this->wn_input = unl(file_get_contents($fn));
         $test2 = 'test2' == $m;
         $out = $test2 ? th(['#', '->typ', 'Token', '->bracket'], 'width="99%"') : '';
@@ -70,7 +77,19 @@ class t_parse extends Model_t
     }
 
     function js($fn, $m) {
-        return '2do';
+        $str = file_get_contents($fn);
+        return 'hightlight' == $m ? Display::js($str) : $this->t_token->token_js($str);
+    }
+
+    function md($fn, $m) {
+        $str = file_get_contents($fn);
+        if ('tok' == $m)
+            return $this->t_token->token_md($str);
+        if ('html' != $m)
+            return Display::lines(Display::highlight_md($str));
+        if (SKY::w('as_html'))
+            return Display::html(new XML(Display::md__($str), 2));
+        return tag(Display::md__($str), 'style="margin:10px;font-size:16px;"');
     }
 
     function css($fn, $m) {
@@ -83,6 +102,24 @@ class t_parse extends Model_t
 
     function yml($fn, $m) {
         return Display::yaml(file_get_contents($fn));
+    }
+
+    function diff($fn, $m) {
+        if ('git' == $m)
+            return $this->t_git->show($fn);
+        $old = $this->t_git->file($fn);
+        $new = file_get_contents(SKY::w('repo') . "/$fn");
+        Display::scheme('z_php');
+        $x = Display::xdata($diff = Display::diff($new, $old));
+        $x->len = strlen($diff);
+        $x->colors = $m[0];
+        $new = Display::table(explode("\n", html($new)), clone $x, false);
+        $x->invert = true;
+        $old = Display::table(explode("\n", html($old)), $x, false);
+        return view('parse.diff', [
+            'old' => $old,
+            'new' => $new,
+        ]);
     }
 
     function zml($fn, $m) {
