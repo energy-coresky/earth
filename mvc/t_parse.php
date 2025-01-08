@@ -49,7 +49,7 @@ class t_parse extends Model_t
         if (PHP::$warning)
             throw new Error(PHP::$warning);
         if ($nice)
-            return Display::php($php);
+            return Show::php($php);
         if ('minifier' == $m)
             return html($php);
         if ('code' == $m)
@@ -78,30 +78,38 @@ class t_parse extends Model_t
 
     function js($fn, $m) {
         $str = file_get_contents($fn);
-        return 'hightlight' == $m ? Display::js($str) : $this->t_token->token_js($str);
+        return 'hightlight' == $m ? Show::js($str) : $this->t_token->token_js($str);
     }
 
     function md($fn, $m) {
         $str = file_get_contents($fn);
-        if ('tok' == $m)
-            return $this->t_token->token_md($str);
-        if ('html' != $m)
-            return Display::lines(Display::highlight_md($str));
-        if (SKY::w('as_html'))
-            return Display::html(new XML(Display::md__($str), 2));
-        return tag(Display::md__($str), 'style="margin:10px;font-size:16px;"');
+        switch ($m) {
+            case 'tok': return $this->t_token->token_md($str);
+            case 'hightlight': return Show::lines(Show::highlight_md($str));
+            case 'html': if (SKY::w('as_html'))
+                //return Show::html(new XML(Show::doc($str), 2));
+                return Show::html(Show::doc($str));
+                return tag(Show::doc($str), 'style="margin:10px;font-size:16px;"');
+        }
     }
 
     function css($fn, $m) {
-        return Display::css(file_get_contents($fn));
+        return Show::css(file_get_contents($fn));
     }
 
     function xml($fn, $m) {
-        return Display::html(file_get_contents($fn));
+        $str = file_get_contents($fn);
+        if ('hightlight' == $m)
+            return Show::html($str);
+        $xml = new XML($str, 'beautifier' == $m ? 2 : 0);
+        $dump = 'dump' == $m;
+        if ($dump || 'tok' == $m)
+            return $this->t_token->token_xml($xml, $dump);
+        return Show::html($xml);
     }
 
     function yml($fn, $m) {
-        return Display::yaml(file_get_contents($fn));
+        return Show::yaml(file_get_contents($fn));
     }
 
     function diff($fn, $m) {
@@ -109,13 +117,13 @@ class t_parse extends Model_t
             return $this->t_git->show($fn);
         $old = $this->t_git->file($fn);
         $new = file_get_contents(SKY::w('repo') . "/$fn");
-        Display::scheme('z_php');
-        $x = Display::xdata($diff = Display::diff($new, $old));
+        Show::scheme('z_php');
+        $x = Show::xdata($diff = Show::diff($new, $old));
         $x->len = strlen($diff);
         $x->colors = $m[0];
-        $new = Display::table(explode("\n", html($new)), clone $x, false);
+        $new = Show::table(explode("\n", html($new)), clone $x, false);
         $x->invert = true;
-        $old = Display::table(explode("\n", html($old)), $x, false);
+        $old = Show::table(explode("\n", html($old)), $x, false);
         return view('parse.diff', [
             'old' => $old,
             'new' => $new,

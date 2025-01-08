@@ -57,7 +57,7 @@ print_r($list = Plan::_b('mvc/sand/*'));
 echo Plan::var($list);
 ~
 $earth = Plan::view_g('_earth.jet');
-echo Display::jet($earth, 'sandbox');
+echo Show::jet($earth, 'sandbox');
 ~
 $d = '../air_wares/upload';
 print_r(Globals::def($d));
@@ -93,7 +93,7 @@ ini_set('highlight.default', '#000');
 ini_set('highlight.keyword', '#292');
 //ini_set('highlight.comment', '#000');
 
-print(Display::_php($s, '=*=*'));
+print(Show::_php($s, '=*=*'));
 ~
 PHP::ini_once();
 $x = Usage::extensions();
@@ -114,16 +114,17 @@ Array
 */
 ~
 $sql = <<<EOD
- ;;; select "qq;ww==========;;;============";
- select 1;
+ [;;; select "qq;ww==]========;;;============]";
+ select 1];
 update '111' ; -> qq ;
 EOD;
-echo Plan::var($ary = Rare::split($sql)) . "\n";
+$ary = Rare::bracket($sql, '[', 1, "n");
+//echo Plan::var($ary) . "\n";
 print_r($ary);
 ~
-Display::scheme('b_far');
+Show::scheme('b_far');
 echo '<h1>Far manager colorer</h1>';
 //$s = Plan::_g('mvc/earth_c.php');
 //$s = file_get_contents(DIR. '/var/jet/dev-p-__dev.layout-_.php');
 $s = file_get_contents(DIR_S. '/w2/boot.php');
-echo Display::_php($s, str_pad('', 19, '=').'-++--...********');
+echo Show::_php($s, str_pad('', 19, '=').'-++--...********');

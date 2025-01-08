@@ -19,7 +19,7 @@ class t_earth extends Model_t
     function md($text) {
         if ($this->is_merc)
             return tag(html($text), '', 'pre');
-        return Display::md($text);
+        return Show::md($text);
     }
 
     function presave($f, $s) {

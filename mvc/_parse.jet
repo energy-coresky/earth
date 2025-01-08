@@ -30,15 +30,16 @@ Mode: <div id="sand-pre" style="width:460px"> &nbsp;
 code: rank
 rank: nice
 nice: minifier
-#.sub_css.sub_xml.sub_yml
+#.sub_css.sub_yml
 minifier: beautifier
 beautifier: code
-#.sub_php.sub_css.sub_xml.sub_yml.sub_zml
+#.sub_php.sub_css.sub_yml.sub_zml
 + {testx: testz, testz: testx}
 #.sub_zml.sub_saw
-test1: test2
-test2: test1
-#.sub_saw.sub_diff
++ {test1: test2, test2: test1}
+#.sub_saw.sub_xml
++ {hightlight: dump, dump: tok, tok: simple, simple: beautifier, beautifier: hightlight}
+#.sub_xml.sub_diff
 0color: 1color
 1color: 2color
 2color: 0color
@@ -47,7 +48,7 @@ git: 1color
 tok: hightlight
 hightlight: html
 html: tok
-#.sub_js.sub_md
+#.sub_md.sub_js
 tok: hightlight
 hightlight: tok
 #.sub_js
@@ -117,6 +118,23 @@ sky.d.diff = function(v) {
 }
 </style>
 #.jscss
+
+#.markdown
++ {
+    1:h1, 2:h2, 3:h3, 4:h4, 5:h5, 6:h6,
+    7:fc_start, 8:fc_body, 9:fc_end,
+    10:code,
+    11:string,
+    12:NL, 13:br_string,
+    14:img_or_link, 15:auto_link,
+    16:reference, 17:footnote_def, 18:footnote_use, # [^footnote]
+    19:hr,
+    20:p, 21:html,
+    22:indent,
+    51:em, 52:strong, 53:strike, 54:sub, 55:sup, 56:mark,
+    91:blockquote, 92:ul, 93:ol, 95:continue, 96:li,
+}
+#.markdown
 
 #.hist
 @loop($ary as $fn)

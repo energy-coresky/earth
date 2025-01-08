@@ -8,7 +8,7 @@ class m_air extends Model_m
 
         [, $begin, $tbl, $end] = $match;
         $x = [0, 0, 0, 2, 1, 0, 0];
-        $other = ['sky.php', 'sky', 'etc/moon.php', 'assets/dev.css', 'assets/dev.js', 'assets/sky.css', 'assets/sky.js'];
+        $yml = yml('+ @object @inc(yml.air) config.yaml');
 
         $tbl = explode("\n", unl(trim($tbl)));
         $head = array_shift($tbl);
@@ -37,7 +37,7 @@ class m_air extends Model_m
             $fn = implode(' | ', [$base = basename($fn), "$lines<br>$sz", $cnt, $tbl[$base] ?? '---']);
         }
 
-        foreach ($other as &$fn) {
+        foreach ($yml->other as &$fn) {
             $txt = file_get_contents(DIR_S . "/$fn");
             $x[0] += ($lines = 1 + substr_count($txt, "\n"));
             $x[1] += ($sz = filesize(DIR_S . "/$fn"));
@@ -45,10 +45,9 @@ class m_air extends Model_m
             $fn = implode(' | ', [$fn, "$lines<br>$sz", $tbl[$fn] ?? '---']);
         }
 
-        $tbl = implode("\n", $w2) . "\n\nВсего в папке **w2**: " . count($w2) . " файлов. "
-            . "Другой основной код **Coresky**, смотрите в следующей таблице:\n\n"
-            . "Файл | Строк,<br>размер | Описание\n:--- | :--- | :---\n" . implode("\n", $other)
-            . "\n\nИтого **Coresky** это: " . (count($w2) + count($other)) . " файлов, $x[0] строк кода, "
+        $tbl = implode("\n", $w2) . "\n\nВсего в папке **w2**: " . count($w2) . " "
+            . $yml->str . implode("\n", $yml->other) . "\n\nИтого **Coresky** это: "
+            . (count($w2) + count($yml->other)) . " файлов, $x[0] строк кода, "
             . round($x[1] / 1024, 1) . " kBytes. В глобальной области видимости: $x[2] именованных функций PHP, "
             . ($x[3] + $x[4] + $x[5] + $x[6]) . " классов PHP, из них $x[4] интерфейса, $x[5] трейта и $x[6] перечислений.";
         $article = "$begin\n$head\n$tbl\n$end";

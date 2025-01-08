@@ -76,17 +76,20 @@ class t_token extends Model_t
 
     function token_md($str) {
         $md = new MD($str);
-        $out = th(['#', 'tok', 'NLstart', 'Value'], 'width="99%"');
-        $i = 0;
-        foreach ($md->tokens() as $t => $y) {
+        $out = th(['#', 'tok', 'html', /*'space',*/ 'value'], 'width="99%"');
+        $replace = [' ' => '·', "\n" => '→', "\t" => '→'];
+        $list = yml('- @inc(yml.markdown) mvc/_parse.jet');
+        foreach ($md->parse() as $i => $ary) {
+            [$tok, $t, $html] = $ary + [2 => false];
             $out .= td([
-                ++$i . '.',
-                $y->tok,
-                "\n" == $t[0] || '' === trim($t) ? strtr($t, " \r\n\t", 'srnt') : '',
-                tag(strtr(html($t), [' ' => '&nbsp;']), '', 'code'),
+                ++$i . ".$tok",
+                $list[0][$tok < 100 ? $tok : $tok - 100],
+                false === $html ? "<r>...</r>" : html($html),
+                //"\n" == $t[0] || '' === trim($t) ? strtr($t, " \n\t", 'snt') : '',
+                tag(strtr(html($t), $replace), '', 'code'),
             ]);
         }
-        return $out;
+        return $out . Show::php(PHP::ary($list, true) . ";\n");
     }
 
     function token_js($str) {
@@ -101,6 +104,45 @@ class t_token extends Model_t
                 $y->tok ? $tok($y->tok) : '',
                 T_WHITESPACE == $y->tok ? var_export($t, true) : html($t),
             ]);
+        }
+        return $out;
+    }
+
+    function token_xml($xml, $dump) {
+        if ($dump) {
+            $xml->parse();
+            ob_start();
+            $xml->dump();
+            return pre(html(ob_get_clean()));
+        }
+        $out = th(['###', 'ModeIn', 'ModeOut', 'Tokens'], 'width="99%"');
+        $i = 0;
+        $attr = [];
+        foreach ($xml->tokens() as $t => $y) {
+            $mode = $y->mode;
+            if ($z = $y->end) { # from <!-- or <![CDATA[
+                $y->find = $y->end;
+            } elseif (in_array($y->found, ['-->', ']]>'])) {
+                $t .= $y->find ? '' : $y->found;
+                $y->len += $y->find ? 0 : 3; # chars move
+            } elseif ('attr' == $y->mode) {
+                if ('>' != $t) {
+                    ++$i;
+                    $attr or $attr[] = $i;
+                    $attr[] = $y->space ? "<r>s</r>" : html($t);
+                    continue;
+                }
+                if (in_array($y->tag, ['script', 'style']))
+                    $y->find = "</$y->tag>";
+            } elseif ($z = 'open' == $y->mode) { # sample: <tag
+                $y->tag = substr($t, 1);
+                $y->mode = 'attr';
+            }
+            $z && !$y->end or $y->mode = 'txt';
+            if ($attr)
+                $out .= td([array_shift($attr) . "..$i", 'attr', 'attr', implode(" <g>|</g> ", $attr)]);
+            $attr = [];
+            $out .= td([++$i, $mode, $y->mode, '' === trim($t) ? tag('space' . strlen($t), '', 'r') : html($t)]);
         }
         return $out;
     }
@@ -139,6 +181,6 @@ class t_token extends Model_t
                 $php->pos == PHP::_CLASS or $pos = -1;
             }
         }
-        return Display::lines($out);
+        return Show::lines($out);
     }
 }

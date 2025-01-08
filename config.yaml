@@ -10,3 +10,14 @@ core:
     dsn: $SELF/earth.base
 # run when push
 # sky sql "vacuum" core earth
+
+~
+#.air
+other: @csv sky.php sky etc/moon.php assets/database.yaml assets/dev.css assets/dev.js assets/sky.css assets/sky.js
+str: |
+  файлов. Другой основной код **Coresky**, смотрите в следующей таблице:
+
+  Файл | Строк,<br>размер | Описание
+  :--- | :--- | :---
+
+#.air
