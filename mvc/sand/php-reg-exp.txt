@@ -4,9 +4,8 @@ var_export($m);
 ~
 $re = "/^[\w\d_\.]{3,30}$/u";
 $str = 'НаРуссском';
-echo preg_match($re, $str);
-
-
+preg_match($re, $str, $matches, PREG_OFFSET_CAPTURE);
+PHP::ary($matches);
 ~
 $str = 'The t123st st987ring';
 $s = '/t(\d+)/';

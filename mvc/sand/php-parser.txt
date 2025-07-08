@@ -1,0 +1,18 @@
+echo $xml = '<uu id="test"></uu>
+<div><div><div></div><div>
+<b>Happy<i>2025</i></b><a>!!!</a>
+<b>NEW</b>
+<div><b>YEAR!</b> 123 </div>
+</div></div>
+<uu id=test></uu>
+</div><uu id=test></uu>';   echo "\n== RESULT:\n\n";
+
+$xml = new XML($xml, 0);
+$_1 = $xml->byTag('b'); # like .getElementById(..)
+$_2 = $xml->byAttr('test');
+$_2->outer($_1); # like .outerHTML
+$xml->remove($_1->selected);
+echo $xml, "\n\n";
+
+$xml->dump();
+~

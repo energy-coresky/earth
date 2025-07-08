@@ -28,23 +28,23 @@ class t_parse extends Model_t
     }
 
     function j($fn) {
-        SKY::w($this->_2 . '_file', $fn);
-        $_fn = ($pos = strpos($fn, ':')) ? substr($fn, $pos + 1) : $fn;
-        ($m = $_POST['m']) ? SKY::w("last_{$this->_2}_m", $m) : ($m = SKY::w("last_{$this->_2}_m"));
+        $history = Vendor::history($fun = $this->_2, $fn);
+        SKY::w($fun . '_file', $fn);
+#        $_fn = ($pos = strpos($fn, ':')) ? substr($fn, $pos + 1) : $fn;
+        ($m = $_POST['m']) ? SKY::w("last_{$fun}_m", $m) : ($m = SKY::w("last_{$fun}_m"));
 #        if ('git' != $m && !is_file(SKY::w('repo') . "/$_fn"))
 #            return $this->dev->error("File `$fn` not found");
-        $history = Vendor::history($this->_2, $fn);
         if ($_POST['a'])
             SKY::w('as_html', $_POST['a'] - 1);
         json([
-            'html' => $this->{$this->_2}($_POST['fn'], $m),
+            'html' => $this->{$fun}(in_array($fun, ['diff', 'zml']) ? $_POST['fn'] : file_get_contents($_POST['fn']), $m),
             'history' => view('parse.hist', ['ary' => $history]),
         ]);
     }
 
-    function php($fn, $m) {
+    function php($src, $m) {
         $nice = 'beautifier' == $m;
-        $php = PHP::file($fn, $nice ? 4 : 0);
+        $php = new PHP($src, $nice ? 4 : 0);
 //if ($nice) $php = new PHP($php);
         if (PHP::$warning)
             throw new Error(PHP::$warning);
@@ -57,8 +57,8 @@ class t_parse extends Model_t
         return $this->t_token->token($php, 'nice' == $m);
     }
 
-    function saw($fn, $m) {
-        $this->wn_input = unl(file_get_contents($fn));
+    function saw($src, $m) {
+        $this->wn_input = unl($src);
         $test2 = 'test2' == $m;
         $out = $test2 ? th(['#', '->typ', 'Token', '->bracket'], 'width="99%"') : '';
         $i = 0;
@@ -76,40 +76,36 @@ class t_parse extends Model_t
         return $test2 ? "$out</table>" : pre(html($out));
     }
 
-    function js($fn, $m) {
-        $str = file_get_contents($fn);
-        return 'hightlight' == $m ? Show::js($str) : $this->t_token->token_js($str);
+    function js($src, $m) {
+        return 'hightlight' == $m ? Show::js($src) : $this->t_token->token_js($src);
     }
 
-    function md($fn, $m) {
-        $str = file_get_contents($fn);
+    function md($src, $m) {
         switch ($m) {
-            case 'tok': return $this->t_token->token_md($str);
-            case 'hightlight': return Show::lines(Show::highlight_md($str));
-            case 'html': if (SKY::w('as_html'))
-                //return Show::html(new XML(Show::doc($str), 2));
-                return Show::html(Show::doc($str));
-                return tag(Show::doc($str), 'style="margin:10px;font-size:16px;"');
+            case 'hightlight': return Show::md($src);
+            case 'dump': return $this->t_token->token_xml(new MD($src), true);
+            case 'tok': return $this->t_token->token_md($src);
+            case 'raw': return Show::html(Show::doc($src, 'md_raw'));
+            case 'html': return SKY::w('as_html') ? Show::html(Show::doc($src)) : tag(Show::doc($src), 'id="md-doc"') . css(MD::$MD->css);
         }
     }
 
-    function css($fn, $m) {
-        return Show::css(file_get_contents($fn));
+    function css($src, $m) {
+        return Show::css($src);
     }
 
-    function xml($fn, $m) {
-        $str = file_get_contents($fn);
+    function xml($src, $m) {
         if ('hightlight' == $m)
-            return Show::html($str);
-        $xml = new XML($str, 'beautifier' == $m ? 2 : 0);
+            return Show::html($src);
+        $xml = new XML($src, 'beautifier' == $m ? 2 : 0);
         $dump = 'dump' == $m;
         if ($dump || 'tok' == $m)
             return $this->t_token->token_xml($xml, $dump);
         return Show::html($xml);
     }
 
-    function yml($fn, $m) {
-        return Show::yaml(file_get_contents($fn));
+    function yml($src, $m) {
+        return Show::yaml($src);
     }
 
     function diff($fn, $m) {

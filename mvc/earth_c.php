@@ -32,6 +32,7 @@ class earth_c extends Controller
                 'php' => 'PHP',
                 'jsc' => 'Javascript',
                 'sql' => 'SQL',
+                'reg' => 'RegExp',
             ],
         ];
     }

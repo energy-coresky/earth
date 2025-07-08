@@ -76,20 +76,24 @@ class t_token extends Model_t
 
     function token_md($str) {
         $md = new MD($str);
-        $out = th(['#', 'tok', 'html', /*'space',*/ 'value'], 'width="99%"');
-        $replace = [' ' => '·', "\n" => '→', "\t" => '→'];
-        $list = yml('- @inc(yml.markdown) mvc/_parse.jet');
-        foreach ($md->parse() as $i => $ary) {
-            [$tok, $t, $html] = $ary + [2 => false];
+        $out = th(['#.depth', 'tag', 'attr', 'value'], 'width="99%"');
+        $attr = function ($attr) {
+            $out = '';
+            foreach ($attr ?? [] as $k => $v)
+                $out .= ' ' . (0 === $v ? $k : "$k=\"$v\"");
+            return "<code>$out</code>";
+        };
+        $i = 0;
+        foreach ($md->gen(false, true) as $depth => $node) {
+            $depth < 0 or $md->inlines($node);
             $out .= td([
-                ++$i . ".$tok",
-                $list[0][$tok < 100 ? $tok : $tok - 100],
-                false === $html ? "<r>...</r>" : html($html),
-                //"\n" == $t[0] || '' === trim($t) ? strtr($t, " \n\t", 'snt') : '',
-                tag(strtr(html($t), $replace), '', 'code'),
-            ]);
+                ++$i . ".$depth",
+                "<code>$node->name</code>",
+                $depth < 0 ? '' : $attr($node->attr),
+                is_string($node->val) ? tag(Plan::str($node->val), '', 'code') : tag(gettype($node->val), '', 'r'),
+            ], $depth < 0 ? 'style="background:pink"' : '');
         }
-        return $out . Show::php(PHP::ary($list, true) . ";\n");
+        return $out;// . css('td code {white-space: pre}');
     }
 
     function token_js($str) {
@@ -110,10 +114,9 @@ class t_token extends Model_t
 
     function token_xml($xml, $dump) {
         if ($dump) {
-            $xml->parse();
             ob_start();
             $xml->dump();
-            return pre(html(ob_get_clean()));
+            return pre(ob_get_clean());
         }
         $out = th(['###', 'ModeIn', 'ModeOut', 'Tokens'], 'width="99%"');
         $i = 0;
